@@ -1,0 +1,38 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/source-cooperative
+name: Radiant Earth / Source Cooperative Packages
+packages:
+- name: source-coop-cli
+  registry: github-releases
+  url: https://github.com/source-cooperative/source-coop-cli/releases
+  language: Rust
+  official: true
+  version: 0.3.0
+  published: '2026-09-24'
+  note: First-party CLI (OIDC login and STS credential exchange). Not published to crates.io (crates.io/api/v1/crates/source-coop-cli returned 404); distributed via GitHub Releases installers and the Homebrew tap. Version/date read from the GitHub releases API.
+- name: source-cooperative/tap/source-coop
+  registry: homebrew
+  url: https://github.com/source-cooperative/homebrew-tap
+  language: Rust
+  official: true
+  version: 0.3.0
+  published: '2026-09-24'
+  note: Homebrew formula for the same CLI; formula pins version "0.3.0" (release v0.3.0 published 2026-09-24).
+- name: '@source-cooperative/components'
+  registry: npm
+  url: https://www.npmjs.com/package/@source-cooperative/components
+  language: TypeScript
+  official: true
+  version: 1.4.0
+  published: '2025-02-18'
+  note: Source Cooperative React components; npm maintainers include radiant-devops. The source repo github.com/source-cooperative/components is archived.
+- name: source-coop
+  registry: pypi
+  url: https://pypi.org/project/source-coop/
+  language: Python
+  official: false
+  version: 0.1.0
+  published: '2025-03-21'
+  note: PyPI summary reads "Unofficial Python SDK & CLI for Source Coop" (author Samapriya Roy, github.com/samapriya/source-coop) — third-party, not first-party.
+note: No first-party API client SDK was found; the docs direct programmatic data access through standard S3 clients (AWS CLI/SDKs, GDAL, DuckDB) pointed at the data proxy https://data.source.coop.

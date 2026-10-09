@@ -1,0 +1,20 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/source-cooperative
+name: Source Cooperative Components
+families:
+- family: React component library
+  loader: npm '@source-cooperative/components' (1.4.0, 2025-02-18)
+  url: https://github.com/source-cooperative/components
+  note: Repository is archived.
+- family: Embeddable file viewers (iframe)
+  items:
+  - name: parquet-table
+    description: A webapp that displays a remote Parquet file in a table. Can be embedded as an iframe.
+    url: https://source-cooperative.github.io/parquet-table/
+    repo: https://github.com/source-cooperative/parquet-table
+  - name: csv-table
+    description: A webapp that displays a remote CSV file in a table. Can be embedded as an iframe.
+    url: https://source-cooperative.github.io/csv-table/
+    repo: https://github.com/source-cooperative/csv-table
+  note: The parquet-table README documents an `iframe` parameter ("if present, the app will be rendered in an iframe-friendly mode"). Other viewer repos in the org (image-viewer, model-viewer, json-viewer, zip-viewer, pdf-viewer, cog-viewer, zarr-viewer) are remote-file viewer web apps without a stated embedding contract.

@@ -1,0 +1,176 @@
+openapi: 3.2.0
+info:
+  title: Radiant Earth Authentication API
+  version: 1.0.0
+  description: 'Operations tagged Authentication across 2 of this provider''s published API definitions: radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://source.coop/api/v1
+  description: Source Cooperative
+security:
+- ApiKeyAuth: []
+tags:
+- name: Authentication
+paths:
+  /whoami:
+    get:
+      tags:
+      - Authentication
+      description: Get the current user's session information. If the user is authenticated but has not created an account, the account field will be null. If the user is not authenticated, a `401 - Unauthorized` response will be returned. This endpoint can be used to list all of the authenticated user's memberships.
+      responses:
+        '200':
+          description: Returns the user session data
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/UserSession'
+        '401':
+          description: Unauthorized - No valid session found
+      summary: Get whoami
+      x-summary-source: derived
+      operationId: getWhoami
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+components:
+  schemas:
+    Account:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+        identity_id:
+          type: string
+          example: identity-id
+        disabled:
+          type: boolean
+        profile:
+          $ref: '#/components/schemas/AccountProfile'
+        flags:
+          $ref: '#/components/schemas/AccountFlags'
+      required:
+      - account_id
+      - account_type
+      - disabled
+      - profile
+      - flags
+    Membership:
+      type: object
+      properties:
+        membership_id:
+          type: string
+          format: uuid
+          example: 00000000-0000-0000-0000-000000000000
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        membership_account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: organization-id
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: repository-id
+        role:
+          $ref: '#/components/schemas/MembershipRole'
+        state:
+          $ref: '#/components/schemas/MembershipState'
+        state_changed:
+          type: string
+          format: date-time
+      required:
+      - membership_id
+      - account_id
+      - membership_account_id
+      - role
+      - state
+      - state_changed
+    MembershipState:
+      type: string
+      enum:
+      - invited
+      - revoked
+      - member
+    AccountType:
+      type: string
+      enum:
+      - user
+      - organization
+      - service
+    MembershipRole:
+      type: string
+      enum:
+      - owners
+      - maintainers
+      - read_data
+      - write_data
+    AccountProfile:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          example: Isaac Asimov
+        bio:
+          type:
+          - string
+          - 'null'
+          maxLength: 1024
+          example: Software Engineer @radiantearth
+        location:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          example: Augsburg, Germany
+        url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: https://source.coop
+    UserSession:
+      type: object
+      properties:
+        identity_id:
+          type: string
+          example: identity-id
+        account:
+          $ref: '#/components/schemas/Account'
+        memberships:
+          type: array
+          items:
+            $ref: '#/components/schemas/Membership'
+    AccountFlags:
+      type: array
+      items:
+        type: string
+        enum:
+        - admin
+        - create_repositories
+        - create_organizations
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Follows the format `<access-key-id> <secret-access-key>`
+x-refined-from:
+- radiant-earth-source-cooperative-openapi.json
+- radiant-earth-source-cooperative-openapi.yml

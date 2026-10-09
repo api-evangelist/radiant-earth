@@ -1,0 +1,43 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/source-cooperative/source.coop/releases
+name: Source Cooperative Web Interface & API Releases
+scheme: semver (release-please style GitHub releases)
+current_version: 1.7.0
+entries:
+- version: 1.7.0
+  date: '2026-10-05'
+  breaking: false
+  highlights:
+  - 'accounts: service accounts, behind the CREATE_SERVICE_ACCOUNTS flag'
+  - 'object-browser: delete in the background with progress, in batches'
+- version: 1.6.1
+  date: '2026-09-24'
+  breaking: false
+  highlights:
+  - 'authz: allow org owners to create products without CREATE_REPOSITORIES flag'
+  - "products: keep unlisted products out of search engines and profile listings"
+- version: 1.6.0
+  date: '2026-08-30'
+  breaking: false
+  highlights:
+  - 'accounts: type-ahead user search in invite and admin lookup'
+  - 'data-connections: rework the cards, the list, and where delete lives'
+- version: 1.5.1
+  date: '2026-08-21'
+  breaking: false
+  highlights:
+  - 'accounts: make account creation a conditional write'
+  - 'products: enforce lowercase-only product IDs'
+- version: 1.5.0
+  date: '2026-08-04'
+  breaking: false
+  highlights:
+  - 'analytics suite — product/object usage cards + admin traffic explorer'
+  - 'viewers: zarr/icechunk'
+related:
+- name: source-coop-cli releases
+  url: https://github.com/source-cooperative/source-coop-cli/releases
+  current_version: 0.3.0
+  date: '2026-09-24'
+note: Releases cover the combined web interface and API repo; no API-only changelog was found. "breaking" reflects that none of these releases carries a breaking-changes section.

@@ -1,0 +1,358 @@
+openapi: 3.2.0
+info:
+  title: Radiant Earth Data Connections API
+  version: 1.0.0
+  description: 'Operations tagged Data Connections across 2 of this provider''s published API definitions: radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://source.coop/api/v1
+  description: Source Cooperative
+security:
+- ApiKeyAuth: []
+tags:
+- name: Data Connections
+paths:
+  /data-connections/{data_connection_id}:
+    get:
+      tags:
+      - Data Connections
+      summary: Get a data connection
+      description: Retrieves a data connection by its ID. Authentication credentials are only included for users with the appropriate permissions.
+      parameters:
+      - in: path
+        name: data_connection_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully retrieved the data connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataConnection'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Data connection with the given ID does not exist
+        '500':
+          description: Internal server error
+      operationId: getDataConnectionsByDataConnectionId
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Data Connections
+      summary: Update a data connection
+      description: Updates an existing data connection. Only users with the appropriate permissions can update data connections.
+      parameters:
+      - in: path
+        name: data_connection_id
+        required: true
+        schema:
+          type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataConnection'
+      responses:
+        '200':
+          description: Successfully updated the data connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataConnection'
+        '400':
+          description: Bad Request - Invalid data connection data
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Data connection with the given ID does not exist
+        '500':
+          description: Internal server error
+      operationId: putDataConnectionsByDataConnectionId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Data Connections
+      summary: Disable a data connection
+      description: Disables a data connection by setting it to read-only. Only users with the appropriate permissions can disable data connections.
+      parameters:
+      - in: path
+        name: data_connection_id
+        required: true
+        schema:
+          type: string
+      responses:
+        '200':
+          description: Successfully disabled the data connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataConnection'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Data connection with the given ID does not exist
+        '500':
+          description: Internal server error
+      operationId: deleteDataConnectionsByDataConnectionId
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /data-connections/available:
+    get:
+      tags:
+      - Data Connections
+      summary: List data connections available to the user for repository creation
+      description: Retrieves a list of data connections which the user is allowed to use for creating repositories. The list is sanitized of data connection credentials based on the user's permissions.
+      responses:
+        '200':
+          description: Successfully retrieved the list of data connections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataConnection'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: getDataConnectionsAvailable
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /data-connections:
+    get:
+      tags:
+      - Data Connections
+      summary: List data connections
+      description: Retrieves a list of data connections. The list is sanitized of data connection credentials based on the user's permissions.
+      responses:
+        '200':
+          description: Successfully retrieved the list of data connections
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/DataConnection'
+        '500':
+          description: Internal server error
+      operationId: getDataConnections
+      x-operation-id-source: derived
+    post:
+      tags:
+      - Data Connections
+      summary: Create a new data connection
+      description: Creates a new data connection. Only users with the `admin` flag may create data connections.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/DataConnection'
+      responses:
+        '200':
+          description: Successfully created the data connection
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DataConnection'
+        '400':
+          description: Bad Request - Invalid data connection data or data connection already exists
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '500':
+          description: Internal server error
+      operationId: postDataConnections
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+components:
+  schemas:
+    DataConnectionDetails:
+      oneOf:
+      - $ref: '#/components/schemas/S3DataConnection'
+      - $ref: '#/components/schemas/AzureDataConnection'
+      discriminator:
+        propertyName: provider
+        mapping:
+          s3: '#/components/schemas/S3DataConnection'
+          az: '#/components/schemas/AzureDataConnection'
+    S3DataConnection:
+      type: object
+      properties:
+        provider:
+          type: string
+          enum:
+          - s3
+        bucket:
+          type: string
+        base_prefix:
+          type: string
+        region:
+          type: string
+          enum:
+          - af-south-1
+          - ap-east-1
+          - ap-northeast-1
+          - ap-northeast-2
+          - ap-northeast-3
+          - ap-south-1
+          - ap-south-2
+          - ap-southeast-1
+          - ap-southeast-2
+          - ap-southeast-3
+          - ap-southeast-4
+          - ap-southeast-5
+          - ca-central-1
+          - ca-west-1
+          - cn-north-1
+          - cn-northwest-1
+          - eu-central-1
+          - eu-central-2
+          - eu-north-1
+          - eu-south-1
+          - eu-south-2
+          - eu-west-1
+          - eu-west-2
+          - eu-west-3
+          - il-central-1
+          - me-central-1
+          - me-south-1
+          - sa-east-1
+          - us-east-1
+          - us-east-2
+          - us-gov-east-1
+          - us-gov-west-1
+          - us-west-1
+          - us-west-2
+      required:
+      - provider
+      - bucket
+      - base_prefix
+      - region
+    DataConnection:
+      type: object
+      properties:
+        data_connection_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: data-connection-id
+        name:
+          type: string
+        prefix_template:
+          type: string
+        read_only:
+          type: boolean
+        allowed_data_modes:
+          type: array
+          items:
+            type: string
+            enum:
+            - open
+            - subscription
+            - private
+        required_flag:
+          type: string
+          enum:
+          - admin
+          - create_repositories
+          - create_organizations
+        details:
+          $ref: '#/components/schemas/DataConnectionDetails'
+        authentication:
+          $ref: '#/components/schemas/DataConnectionAuthentication'
+      required:
+      - data_connection_id
+      - name
+      - read_only
+      - allowed_data_modes
+      - details
+    S3AccessKeyAuthentication:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - s3_access_key
+        access_key_id:
+          type: string
+        secret_access_key:
+          type: string
+      required:
+      - type
+      - access_key_id
+      - secret_access_key
+    AzureSasTokenAuthentication:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - az_sas_token
+        sas_token:
+          type: string
+      required:
+      - type
+      - sas_token
+    DataConnectionAuthentication:
+      oneOf:
+      - $ref: '#/components/schemas/S3AccessKeyAuthentication'
+      - $ref: '#/components/schemas/AzureSasTokenAuthentication'
+      discriminator:
+        propertyName: type
+        mapping:
+          s3_access_key: '#/components/schemas/S3AccessKeyAuthentication'
+          az_sas_token: '#/components/schemas/AzureSasTokenAuthentication'
+    AzureDataConnection:
+      type: object
+      properties:
+        provider:
+          type: string
+          enum:
+          - az
+        account_name:
+          type: string
+        container_name:
+          type: string
+        base_prefix:
+          type: string
+        region:
+          type: string
+          enum:
+          - westeurope
+      required:
+      - provider
+      - account_name
+      - container_name
+      - base_prefix
+      - region
+  responses:
+    Unauthorized:
+      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
+      x-ae-placeholder: true
+    Forbidden:
+      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
+      x-ae-placeholder: true
+    InternalServerError:
+      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
+      x-ae-placeholder: true
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Follows the format `<access-key-id> <secret-access-key>`
+x-refined-from:
+- radiant-earth-source-cooperative-openapi.json
+- radiant-earth-source-cooperative-openapi.yml

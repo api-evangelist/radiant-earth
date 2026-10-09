@@ -1,0 +1,32 @@
+generated: '2026-10-09'
+method: searched
+source: https://docs.source.coop/automated-access
+summary:
+  types:
+  - apiKey
+  api_key_in:
+  - header
+schemes:
+- name: ApiKeyAuth
+  type: apiKey
+  in: header
+  parameter: Authorization
+  description: Follows the format `<access-key-id> <secret-access-key>`
+  sources:
+  - openapi/radiant-earth-source-cooperative-openapi.yml
+docs: https://docs.source.coop/automated-access
+additional_mechanisms:
+- name: Service account API keys (data proxy)
+  description: An API key lets software sign in as a service account; AWS CLI/SDKs
+    trade the key at the data proxy STS endpoint (https://data.source.coop/.sts, AssumeRoleWithWebIdentity)
+    for credentials that last an hour. Keys must be sent in the request body, never
+    in a URL.
+  docs: https://docs.source.coop/automated-access
+- name: GitHub Actions OIDC
+  description: A service account can trust a GitHub Actions workflow, which signs
+    in with a token GitHub issues for each run (no stored secret).
+  docs: https://docs.source.coop/automated-access
+- name: Interactive OIDC via Source CLI
+  description: source-coop login authenticates against the OIDC issuer https://auth.source.coop
+    (default scopes "openid offline_access") and caches short-lived credentials.
+  docs: https://github.com/source-cooperative/source-coop-cli

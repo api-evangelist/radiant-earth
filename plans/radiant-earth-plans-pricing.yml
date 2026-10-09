@@ -1,0 +1,12 @@
+generated: '2026-10-09'
+method: none
+source: https://docs.source.coop/what-is-source
+name: Source Cooperative Plans
+plan_count: 0
+plans: []
+published: false
+audience: unclear
+pricing_basis: none
+delivery:
+  delivery: managed
+note: No pricing or plan page was found; https://source.coop/pricing returned "Page Not Found" (HTTP 200 shell). The docs describe Source as a non-profit utility that "aims to provide the best service to its members at the lowest possible cost" and list "Data Product Monetization" only as a concept, with no published tiers or prices.

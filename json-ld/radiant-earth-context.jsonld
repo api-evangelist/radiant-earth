@@ -1,0 +1,238 @@
+{
+  "@context": {
+    "@vocab": "https://radiant.earth/schema#",
+    "schema": "https://schema.org/",
+    "xsd": "http://www.w3.org/2001/XMLSchema#",
+    "dcterms": "http://purl.org/dc/terms/",
+    "radiant": "https://radiant.earth/schema#",
+    "AccountType": "radiant:AccountType",
+    "AccountProfile": "radiant:AccountProfile",
+    "name": {
+      "@id": "radiant:name",
+      "@type": "xsd:string"
+    },
+    "bio": {
+      "@id": "radiant:bio",
+      "@type": "xsd:string"
+    },
+    "location": {
+      "@id": "radiant:location",
+      "@type": "xsd:string"
+    },
+    "url": {
+      "@id": "radiant:url",
+      "@type": "@id"
+    },
+    "Account": "radiant:Account",
+    "account_id": {
+      "@id": "radiant:account_id",
+      "@type": "xsd:string"
+    },
+    "account_type": {
+      "@id": "radiant:account_type",
+      "@type": "@id"
+    },
+    "identity_id": {
+      "@id": "radiant:identity_id",
+      "@type": "xsd:string"
+    },
+    "disabled": {
+      "@id": "radiant:disabled",
+      "@type": "xsd:boolean"
+    },
+    "profile": {
+      "@id": "radiant:profile",
+      "@type": "@id"
+    },
+    "flags": {
+      "@id": "radiant:flags",
+      "@type": "@id"
+    },
+    "MembershipRole": "radiant:MembershipRole",
+    "MembershipState": "radiant:MembershipState",
+    "Membership": "radiant:Membership",
+    "membership_id": {
+      "@id": "radiant:membership_id",
+      "@type": "xsd:string"
+    },
+    "membership_account_id": {
+      "@id": "radiant:membership_account_id",
+      "@type": "xsd:string"
+    },
+    "repository_id": {
+      "@id": "radiant:repository_id",
+      "@type": "xsd:string"
+    },
+    "role": {
+      "@id": "radiant:role",
+      "@type": "@id"
+    },
+    "state": {
+      "@id": "radiant:state",
+      "@type": "@id"
+    },
+    "state_changed": {
+      "@id": "radiant:state_changed",
+      "@type": "xsd:dateTime"
+    },
+    "UserSession": "radiant:UserSession",
+    "account": {
+      "@id": "radiant:account",
+      "@type": "@id"
+    },
+    "memberships": {
+      "@id": "radiant:memberships",
+      "@container": "@list"
+    },
+    "AccountCreationRequest": "radiant:AccountCreationRequest",
+    "APIKey": "radiant:APIKey",
+    "access_key_id": {
+      "@id": "radiant:access_key_id",
+      "@type": "xsd:string"
+    },
+    "expires": {
+      "@id": "radiant:expires",
+      "@type": "xsd:dateTime"
+    },
+    "secret_access_key": {
+      "@id": "radiant:secret_access_key",
+      "@type": "xsd:string"
+    },
+    "APIKeyRequest": "radiant:APIKeyRequest",
+    "RedactedAPIKey": "radiant:RedactedAPIKey",
+    "MembershipInvitation": "radiant:MembershipInvitation",
+    "S3DataConnection": "radiant:S3DataConnection",
+    "provider": {
+      "@id": "radiant:provider",
+      "@type": "xsd:string"
+    },
+    "bucket": {
+      "@id": "radiant:bucket",
+      "@type": "xsd:string"
+    },
+    "base_prefix": {
+      "@id": "radiant:base_prefix",
+      "@type": "xsd:string"
+    },
+    "region": {
+      "@id": "radiant:region",
+      "@type": "xsd:string"
+    },
+    "AzureDataConnection": "radiant:AzureDataConnection",
+    "account_name": {
+      "@id": "radiant:account_name",
+      "@type": "xsd:string"
+    },
+    "container_name": {
+      "@id": "radiant:container_name",
+      "@type": "xsd:string"
+    },
+    "S3AccessKeyAuthentication": "radiant:S3AccessKeyAuthentication",
+    "type": {
+      "@id": "radiant:type",
+      "@type": "xsd:string"
+    },
+    "AzureSasTokenAuthentication": "radiant:AzureSasTokenAuthentication",
+    "sas_token": {
+      "@id": "radiant:sas_token",
+      "@type": "xsd:string"
+    },
+    "DataConnection": "radiant:DataConnection",
+    "data_connection_id": {
+      "@id": "radiant:data_connection_id",
+      "@type": "xsd:string"
+    },
+    "prefix_template": {
+      "@id": "radiant:prefix_template",
+      "@type": "xsd:string"
+    },
+    "read_only": {
+      "@id": "radiant:read_only",
+      "@type": "xsd:boolean"
+    },
+    "allowed_data_modes": {
+      "@id": "radiant:allowed_data_modes",
+      "@container": "@list"
+    },
+    "required_flag": {
+      "@id": "radiant:required_flag",
+      "@type": "xsd:string"
+    },
+    "details": {
+      "@id": "radiant:details",
+      "@type": "@id"
+    },
+    "authentication": {
+      "@id": "radiant:authentication",
+      "@type": "@id"
+    },
+    "RepositoryDataMode": "radiant:RepositoryDataMode",
+    "RepositoryMeta": "radiant:RepositoryMeta",
+    "title": {
+      "@id": "radiant:title",
+      "@type": "xsd:string"
+    },
+    "description": {
+      "@id": "radiant:description",
+      "@type": "xsd:string"
+    },
+    "tags": {
+      "@id": "radiant:tags",
+      "@type": "xsd:string"
+    },
+    "RepositoryCreationRequest": "radiant:RepositoryCreationRequest",
+    "data_mode": {
+      "@id": "radiant:data_mode",
+      "@type": "@id"
+    },
+    "meta": {
+      "@id": "radiant:meta",
+      "@type": "@id"
+    },
+    "RepositoryState": "radiant:RepositoryState",
+    "RepositoryMirror": "radiant:RepositoryMirror",
+    "prefix": {
+      "@id": "radiant:prefix",
+      "@type": "xsd:string"
+    },
+    "RepositoryData": "radiant:RepositoryData",
+    "primary_mirror": {
+      "@id": "radiant:primary_mirror",
+      "@type": "xsd:string"
+    },
+    "mirrors": {
+      "@id": "radiant:mirrors"
+    },
+    "Repository": "radiant:Repository",
+    "featured": {
+      "@id": "radiant:featured",
+      "@type": "xsd:integer"
+    },
+    "data": {
+      "@id": "radiant:data",
+      "@type": "@id"
+    },
+    "published": {
+      "@id": "radiant:published",
+      "@type": "xsd:dateTime"
+    },
+    "RepositoryUpdateRequest": "radiant:RepositoryUpdateRequest",
+    "RepositoryListResponse": "radiant:RepositoryListResponse",
+    "repositories": {
+      "@id": "radiant:repositories",
+      "@container": "@list"
+    },
+    "next": {
+      "@id": "radiant:next",
+      "@type": "xsd:string"
+    },
+    "RepositoryFeaturedUpdateRequest": "radiant:RepositoryFeaturedUpdateRequest"
+  },
+  "@type": "schema:Dataset",
+  "schema:name": "Radiant Earth API JSON-LD context",
+  "schema:description": "A JSON-LD @context for the objects Radiant Earth's own API contract declares: one class per component schema, one property per declared field, typed from the contract. Derived by script (derive-json-ld.py, 2026-10-09) from openapi/radiant-earth-source-cooperative-openapi.yml.",
+  "dcterms:created": "2026-10-09",
+  "dcterms:source": [
+    "openapi/radiant-earth-source-cooperative-openapi.yml"
+  ]
+}

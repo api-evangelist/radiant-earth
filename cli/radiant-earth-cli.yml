@@ -1,0 +1,31 @@
+generated: '2026-10-09'
+method: searched
+source: https://github.com/source-cooperative/source-coop-cli
+docs: https://docs.source.coop/upload-with-the-cli
+name: source-coop
+description: First-party Source Cooperative CLI — OIDC login and STS credential exchange, used as an AWS credential_process so S3 clients can reach the data proxy (https://data.source.coop).
+version: 0.3.0
+install:
+- method: shell installer (macOS/Linux)
+  command: curl --proto '=https' --tlsv1.2 -LsSf https://github.com/source-cooperative/source-coop-cli/releases/latest/download/source-coop-cli-installer.sh | sh
+- method: PowerShell installer (Windows)
+  command: powershell -ExecutionPolicy ByPass -c "irm https://github.com/source-cooperative/source-coop-cli/releases/latest/download/source-coop-cli-installer.ps1 | iex"
+- method: homebrew
+  command: brew install source-cooperative/tap/source-coop
+- method: from source
+  command: cargo install --git https://github.com/source-cooperative/source-coop-cli
+commands:
+- name: login
+  usage: source-coop login
+  description: Opens a browser to authenticate and caches short-lived credentials in the OS keyring (file fallback available). Options include --issuer, --client-id, --proxy-url, --role-arn, --format, --profile, --duration, --scope, --port, --no-cache.
+- name: creds
+  usage: source-coop creds
+  description: Prints cached credentials, refreshing them with the cached refresh token; --format credential-process (default), env, or aws-credentials.
+- name: --version
+  usage: source-coop --version
+  description: Prints the CLI version.
+flows:
+- name: AWS credential_process profile
+  config: "[profile source-coop]\ncredential_process = source-coop creds\nendpoint_url = https://data.source.coop"
+- name: Headless login on a remote server
+  usage: source-coop login --port 8400

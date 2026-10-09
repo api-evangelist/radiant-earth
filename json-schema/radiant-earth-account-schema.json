@@ -1,0 +1,94 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/radiant-earth/main/json-schema/radiant-earth-account-schema.json",
+  "title": "Account",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/radiant-earth-source-cooperative-openapi.yml#/components/schemas/Account",
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 40,
+      "pattern": "^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$"
+    },
+    "account_type": {
+      "$ref": "#/$defs/AccountType"
+    },
+    "identity_id": {
+      "type": "string"
+    },
+    "disabled": {
+      "type": "boolean"
+    },
+    "profile": {
+      "$ref": "#/$defs/AccountProfile"
+    },
+    "flags": {
+      "$ref": "#/$defs/AccountFlags"
+    }
+  },
+  "required": [
+    "account_id",
+    "account_type",
+    "disabled",
+    "profile",
+    "flags"
+  ],
+  "$defs": {
+    "AccountFlags": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "admin",
+          "create_repositories",
+          "create_organizations"
+        ]
+      }
+    },
+    "AccountProfile": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 128
+        },
+        "bio": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 1024
+        },
+        "location": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "maxLength": 128
+        },
+        "url": {
+          "type": [
+            "string",
+            "null"
+          ],
+          "format": "uri"
+        }
+      }
+    },
+    "AccountType": {
+      "type": "string",
+      "enum": [
+        "user",
+        "organization",
+        "service"
+      ]
+    }
+  }
+}

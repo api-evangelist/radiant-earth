@@ -1,0 +1,137 @@
+overlay: 1.0.0
+info:
+  title: Radiant Earth Source Cooperative API overlay
+  version: 1.0.0
+extends: ../openapi/_original/radiant-earth-source-cooperative-openapi.yml
+actions:
+- target: $.paths['/accounts/{account_id}/api-keys'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: createANewApiKeyForAnAccount
+- target: $.paths['/accounts/{account_id}/api-keys'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: listApiKeysForAnAccount
+- target: $.paths['/accounts/{account_id}/flags'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: getAccountFlags
+- target: $.paths['/accounts/{account_id}/flags'].put
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: updateAccountFlags
+- target: $.paths['/accounts/{account_id}'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: getAccountDetails
+- target: $.paths['/accounts/{account_id}'].delete
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: disableAnAccount
+- target: $.paths['/accounts/{account_id}/members'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: inviteANewMemberToAnAccount
+- target: $.paths['/accounts/{account_id}/members'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: listTheMembershipsForAnAccount
+- target: $.paths['/accounts/{account_id}/profile'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: getAccountProfile
+- target: $.paths['/accounts/{account_id}/profile'].put
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: updateAccountProfile
+- target: $.paths['/accounts'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: createANewAccount
+- target: $.paths['/api-keys/{access_key_id}'].delete
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: revokeAnApiKey
+- target: $.paths['/data-connections/{data_connection_id}'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: getADataConnection
+- target: $.paths['/data-connections/{data_connection_id}'].put
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: updateADataConnection
+- target: $.paths['/data-connections/{data_connection_id}'].delete
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: disableADataConnection
+- target: $.paths['/data-connections/available'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: listDataConnectionsAvailableToTheUserForRepositoryC
+- target: $.paths['/data-connections'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: listDataConnections
+- target: $.paths['/data-connections'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: createANewDataConnection
+- target: $.paths['/memberships/{membership_id}/accept'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: acceptAMembershipInvitation
+- target: $.paths['/memberships/{membership_id}/reject'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: rejectsAMembershipInvitation
+- target: $.paths['/memberships/{membership_id}/revoke'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: revokesAMembership
+- target: $.paths['/memberships/{membership_id}/update-role'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: updatesAMembershipRole
+- target: $.paths['/repositories/{account_id}/{repository_id}/api-keys'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: createANewApiKey
+- target: $.paths['/repositories/{account_id}/{repository_id}/api-keys'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: listApiKeysForARepository
+- target: $.paths['/repositories/{account_id}/{repository_id}'].put
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: updateAnExistingRepository
+- target: $.paths['/repositories/{account_id}/{repository_id}'].delete
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: disableAnExistingRepository
+- target: $.paths['/repositories/{account_id}/{repository_id}'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: getAnExistingRepository
+- target: $.paths['/repositories/{account_id}/{repository_id}/members'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: inviteANewMemberToARepository
+- target: $.paths['/repositories/{account_id}/{repository_id}/members'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: listTheMembershipsForARepository
+- target: $.paths['/repositories/{account_id}'].post
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: createANewRepository
+- target: $.paths['/whoami'].get
+  description: Add an operationId (the original contract defines none)
+  update:
+    operationId: getTheIdentityOfTheAuthenticatedCaller
+- target: $.paths['/whoami'].get
+  update:
+    summary: Get the identity of the authenticated caller
+- target: $.info
+  update:
+    x-provider: Radiant Earth
+    x-apis-json: https://raw.githubusercontent.com/api-evangelist/radiant-earth/refs/heads/main/apis.yml

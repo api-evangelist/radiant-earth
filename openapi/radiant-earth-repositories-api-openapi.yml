@@ -1,0 +1,670 @@
+openapi: 3.2.0
+info:
+  title: Radiant Earth Repositories API
+  version: 1.0.0
+  description: 'Operations tagged Repositories across 2 of this provider''s published API definitions: radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://source.coop/api/v1
+  description: Source Cooperative
+security:
+- ApiKeyAuth: []
+tags:
+- name: Repositories
+paths:
+  /repositories/{account_id}/{repository_id}/api-keys:
+    post:
+      tags:
+      - Repositories
+      summary: Create a new API key
+      description: Creates a new API key for the specified repository. Only users who are an `owners` or `maintainers` member of the repository or organization may create an API Key. Users with the `admin` flag may create API keys for any repository.
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account
+      - in: path
+        name: repository_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the repository to create the API key for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKeyRequest'
+      responses:
+        '200':
+          description: Successfully created API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+        '400':
+          description: Bad request - Invalid request body or expiration date
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Repository not found
+        '500':
+          description: Internal server error
+      operationId: postRepositoriesByAccountIdByRepositoryIdApiKeys
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Repositories
+      summary: List API keys for a repository
+      description: Retrieves all API keys associated with the specified repository. Only users who are an `owners` or `maintainers` member of the repository or organization may list API keys. Users with the `admin` flag may list API keys for any repository.
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account
+      - in: path
+        name: repository_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the repository to list API keys for
+      responses:
+        '200':
+          description: Successfully retrieved API keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RedactedAPIKey'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Repository not found
+        '500':
+          description: Internal server error
+      operationId: getRepositoriesByAccountIdByRepositoryIdApiKeys
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /repositories/{account_id}/{repository_id}:
+    put:
+      tags:
+      - Repositories
+      summary: Update an existing repository
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account that owns the repository
+      - in: path
+        name: repository_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the repository to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositoryUpdateRequest'
+      responses:
+        '200':
+          description: Successfully updated repository
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Repository'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      description: 'Updates an existing repository for the specified account.
+
+        For user accounts, you must be authenticated as the user account you are updating the repository for.
+
+        For organization accounts, you must be authenticated as either an `owners` or `maintainers` member for the organization you are updating the repository for.
+
+
+        Users with the `admin` flag may update repositories for any account.'
+      operationId: putRepositoriesByAccountIdByRepositoryId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Repositories
+      summary: Disable an existing repository
+      description: 'Disables an existing repository for the specified account.
+
+        For user accounts, you must be authenticated as the user account you are disabling the repository for.
+
+        For organization accounts, you must be authenticated as either an `owners` or `maintainers` member for the organization you are disabling the repository for.
+
+
+        Users with the `admin` flag may disable repositories for any account.'
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account that owns the repository
+      - in: path
+        name: repository_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the repository to disable
+      responses:
+        '200':
+          description: Successfully disabled repository
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Repository'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: deleteRepositoriesByAccountIdByRepositoryId
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Repositories
+      summary: Get an existing repository
+      description: 'Retrieves an existing repository for the specified account.
+
+        For user accounts, you must be authenticated as the user account you are retrieving the repository for.
+
+        For organization accounts, you must be authenticated as either an `owners` or `maintainers` member for the organization you are retrieving the repository from.
+
+
+        Users with the `admin` flag may retrieve repositories for any account.'
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account that owns the repository
+      - in: path
+        name: repository_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the repository to retrieve
+      responses:
+        '200':
+          description: Successfully retrieved repository
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Repository'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: getRepositoriesByAccountIdByRepositoryId
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /repositories/{account_id}/{repository_id}/members:
+    post:
+      tags:
+      - Repositories
+      summary: Invite a new member to a repository
+      description: 'Invites a new member to the specified repository. For user accounts, you must be authenticated as the user account you are inviting the member to. For organization accounts, you must be authenticated as either an `owners` or `maintainers` member of the organization or repository you are inviting the member to.
+
+        Users with the `admin` flag may invite users to any repository.'
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account that owns the repository
+      - in: path
+        name: repository_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the repository to invite the member to
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembershipInvitation'
+      responses:
+        '200':
+          description: Successfully invited member
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+        '400':
+          description: Bad request - Invalid request body or member already invited/exists
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Repository not found
+        '500':
+          description: Internal server error
+      operationId: postRepositoriesByAccountIdByRepositoryIdMembers
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Repositories
+      summary: List the memberships for a repository
+      description: 'Retrieves all memberships associated with the specified repository.
+
+        For user accounts, you must be authenticated as the user account you are listing memberships for.
+
+        For organization accounts, you must be authenticated as either an `owners` or `maintainers` member for the organization or repository you are listing memberships for.
+
+
+        Users with the `admin` flag may list memberships for any repository.'
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account that owns the repository
+      - in: path
+        name: repository_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the repository to list memberships for
+      responses:
+        '200':
+          description: Successfully retrieved memberships
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Repository not found
+        '500':
+          description: Internal server error
+      operationId: getRepositoriesByAccountIdByRepositoryIdMembers
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /repositories/{account_id}:
+    post:
+      tags:
+      - Repositories
+      summary: Create a new repository
+      description: 'Creates a new repository for the specified account.
+
+        For user accounts, you must be authenticated as the user account you are creating the repository for.
+
+        For organization accounts, you must be authenticated as either an `owners` or `maintainers` member for the organization you are creating the repository for.
+
+
+        Users with the `admin` flag may create repositories for any account.'
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account to create the repository for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RepositoryCreationRequest'
+      responses:
+        '200':
+          description: Successfully created repository
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Repository'
+        '400':
+          $ref: '#/components/responses/BadRequest'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          $ref: '#/components/responses/Forbidden'
+        '404':
+          $ref: '#/components/responses/NotFound'
+        '500':
+          $ref: '#/components/responses/InternalServerError'
+      operationId: postRepositoriesByAccountId
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+components:
+  schemas:
+    RepositoryState:
+      type: string
+      enum:
+      - listed
+      - unlisted
+    RepositoryCreationRequest:
+      type: object
+      properties:
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+        data_mode:
+          $ref: '#/components/schemas/RepositoryDataMode'
+        meta:
+          $ref: '#/components/schemas/RepositoryMeta'
+        data_connection_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: data-connection-id
+      required:
+      - repository_id
+      - data_mode
+      - meta
+      - data_connection_id
+    Membership:
+      type: object
+      properties:
+        membership_id:
+          type: string
+          format: uuid
+          example: 00000000-0000-0000-0000-000000000000
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        membership_account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: organization-id
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: repository-id
+        role:
+          $ref: '#/components/schemas/MembershipRole'
+        state:
+          $ref: '#/components/schemas/MembershipState'
+        state_changed:
+          type: string
+          format: date-time
+      required:
+      - membership_id
+      - account_id
+      - membership_account_id
+      - role
+      - state
+      - state_changed
+    MembershipState:
+      type: string
+      enum:
+      - invited
+      - revoked
+      - member
+    Repository:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+        state:
+          $ref: '#/components/schemas/RepositoryState'
+        data_mode:
+          $ref: '#/components/schemas/RepositoryDataMode'
+        featured:
+          type: integer
+          enum:
+          - 1
+          - 0
+        meta:
+          $ref: '#/components/schemas/RepositoryMeta'
+        data:
+          $ref: '#/components/schemas/RepositoryData'
+        published:
+          type: string
+          format: date-time
+        disabled:
+          type: boolean
+      required:
+      - account_id
+      - repository_id
+      - state
+      - data_mode
+      - featured
+      - meta
+      - data
+      - published
+      - disabled
+    RedactedAPIKey:
+      type: object
+      properties:
+        access_key_id:
+          type: string
+          minLength: 2
+          maxLength: 24
+          example: SCFOOBAR
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: repository-id
+        disabled:
+          type: boolean
+        expires:
+          type: string
+          format: date-time
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          example: Dev Machine
+      required:
+      - access_key_id
+      - account_id
+      - disabled
+      - expires
+      - name
+    APIKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Dev Machine
+        expires:
+          type: string
+          format: date-time
+      required:
+      - name
+      - expires
+    RepositoryMirror:
+      type: object
+      properties:
+        data_connection_id:
+          type: string
+        prefix:
+          type: string
+      required:
+      - data_connection_id
+      - prefix
+    MembershipInvitation:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        role:
+          $ref: '#/components/schemas/MembershipRole'
+      required:
+      - account_id
+      - role
+    RepositoryUpdateRequest:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/RepositoryMeta'
+        state:
+          $ref: '#/components/schemas/RepositoryState'
+      required:
+      - meta
+      - state
+    RepositoryDataMode:
+      type: string
+      enum:
+      - open
+      - subscription
+      - private
+    RepositoryData:
+      type: object
+      properties:
+        primary_mirror:
+          type: string
+        mirrors:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RepositoryMirror'
+      required:
+      - primary_mirror
+      - mirrors
+    RepositoryMeta:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: string
+      required:
+      - title
+      - description
+      - tags
+    APIKey:
+      type: object
+      properties:
+        access_key_id:
+          type: string
+          minLength: 2
+          maxLength: 24
+          example: SCFOOBAR
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: repository-id
+        disabled:
+          type: boolean
+        expires:
+          type: string
+          format: date-time
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          example: Dev Machine
+        secret_access_key:
+          type: string
+          minLength: 64
+          maxLength: 64
+      required:
+      - access_key_id
+      - account_id
+      - disabled
+      - expires
+      - name
+      - secret_access_key
+    MembershipRole:
+      type: string
+      enum:
+      - owners
+      - maintainers
+      - read_data
+      - write_data
+  responses:
+    Forbidden:
+      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
+      x-ae-placeholder: true
+    Unauthorized:
+      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
+      x-ae-placeholder: true
+    InternalServerError:
+      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
+      x-ae-placeholder: true
+    BadRequest:
+      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
+      x-ae-placeholder: true
+    NotFound:
+      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
+      x-ae-placeholder: true
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Follows the format `<access-key-id> <secret-access-key>`
+x-refined-from:
+- radiant-earth-source-cooperative-openapi.json
+- radiant-earth-source-cooperative-openapi.yml

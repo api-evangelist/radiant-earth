@@ -1,0 +1,37 @@
+generated: '2026-10-09'
+method: searched
+probe: true
+source:
+  - https://radiant.earth/privacy/
+  - https://radiant.earth/terms/
+signals:
+  notice_and_action:
+    url: https://radiant.earth/terms/
+    section: Copyright Complaints
+    note: >-
+      The Radiant MLHub Terms of Service publish a notice mechanism for intellectual-property
+      infringement (written notice to support@radiant.earth, subject line "Copyright Infringement")
+      and commit to removing or disabling access to infringing content. This is a copyright
+      complaint channel only; no broader illegal-content reporting or DSA-specific process is described.
+    evidence:
+      - source: https://radiant.earth/terms/
+        http_status: 200
+        fetched: '2026-10-09'
+        quote: "We will take appropriate action under intellectual property laws to deal with infringement, including removing or disabling access to infringing content."
+      - source: https://radiant.earth/terms/
+        http_status: 200
+        fetched: '2026-10-09'
+        quote: "If you see anything in Radiant MLHub that you think is an infringement on other’s intellectual property rights, please submit your notice in writing with the subject line “Copyright Infringement” to support@radiant.earth and try to include a detailed description as you can of what you think the infringement is."
+checked_without_signal:
+  - url: https://radiant.earth/privacy/
+    http_status: 200
+    note: >-
+      The privacy policy (Open Imagery Network Inc., DBA Radiant Earth) names no data-subject
+      rights or request process, no retention period, no subprocessor list (only a generic
+      "affiliates or service providers" clause), no Global Privacy Control / opt-out-signal
+      statement, no breach-notification commitment and no data-residency statement. It states
+      "We do not knowingly collect or solicit personal information from children under 13." --
+      a children's-data statement, not an age-assurance mechanism, so not recorded as age_assurance.
+  - note: >-
+      Conventional paths probed on radiant.earth, all HTTP 404: /accessibility/, /legal/subprocessors/,
+      /legal/dpa/, /privacy/requests/, /transparency/, /trust/, /ai/, /privacy-policy/.

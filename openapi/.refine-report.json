@@ -1,0 +1,51 @@
+{
+  "provider": "radiant-earth",
+  "sources": [
+    "_original/radiant-earth-source-cooperative-openapi.json",
+    "radiant-earth-source-cooperative-openapi.yml"
+  ],
+  "outputs": [
+    "radiant-earth-api-keys-api-openapi.yml",
+    "radiant-earth-accounts-api-openapi.yml",
+    "radiant-earth-authentication-api-openapi.yml",
+    "radiant-earth-data-connections-api-openapi.yml",
+    "radiant-earth-memberships-api-openapi.yml",
+    "radiant-earth-repositories-api-openapi.yml"
+  ],
+  "archived": [
+    "archived openapi/radiant-earth-source-cooperative-openapi.yml"
+  ],
+  "errors": [
+    "radiant-earth-source-cooperative-openapi.json: dangling $ref: #/components/responses/BadRequest",
+    "radiant-earth-source-cooperative-openapi.json: dangling $ref: #/components/responses/Forbidden",
+    "radiant-earth-source-cooperative-openapi.json: dangling $ref: #/components/responses/InternalServerError",
+    "radiant-earth-source-cooperative-openapi.json: dangling $ref: #/components/responses/NotFound",
+    "radiant-earth-source-cooperative-openapi.json: dangling $ref: #/components/responses/Unauthorized"
+  ],
+  "warnings": [],
+  "notes": [
+    "sourced from openapi/_original/ (1 archived document(s)); previously refined output at the top level was skipped rather than re-split",
+    "radiant-earth-source-cooperative-openapi.json: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "radiant-earth-source-cooperative-openapi.json: declared missing tag: API Keys",
+    "radiant-earth-source-cooperative-openapi.json: declared missing tag: Accounts",
+    "radiant-earth-source-cooperative-openapi.json: declared missing tag: Authentication",
+    "radiant-earth-source-cooperative-openapi.json: declared missing tag: Data Connections",
+    "radiant-earth-source-cooperative-openapi.json: declared missing tag: Memberships",
+    "radiant-earth-source-cooperative-openapi.json: declared missing tag: Repositories",
+    "radiant-earth-source-cooperative-openapi.yml: upgraded openapi 3.0.0 -> OpenAPI 3.2.0",
+    "radiant-earth-source-cooperative-openapi.yml: declared missing tag: API Keys",
+    "radiant-earth-source-cooperative-openapi.yml: declared missing tag: Accounts",
+    "radiant-earth-source-cooperative-openapi.yml: declared missing tag: Authentication",
+    "radiant-earth-source-cooperative-openapi.yml: declared missing tag: Data Connections",
+    "radiant-earth-source-cooperative-openapi.yml: declared missing tag: Memberships",
+    "radiant-earth-source-cooperative-openapi.yml: declared missing tag: Repositories",
+    "tag 'API Keys' spans 2 source specs (radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml): per-path servers applied",
+    "tag 'Accounts' spans 2 source specs (radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml): per-path servers applied",
+    "tag 'Authentication' spans 2 source specs (radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml): per-path servers applied",
+    "tag 'Data Connections' spans 2 source specs (radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml): per-path servers applied",
+    "tag 'Memberships' spans 2 source specs (radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml): per-path servers applied",
+    "tag 'Repositories' spans 2 source specs (radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml): per-path servers applied",
+    "apis.yml register: written (+6 apis, 6 total)"
+  ],
+  "skipped": []
+}

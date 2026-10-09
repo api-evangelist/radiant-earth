@@ -1,23 +1,292 @@
 aid: radiant-earth
+
 name: Radiant Earth
-description: 'Radiant Earth is a company surfaced via the API Evangelist harvest backlog (source: tag-qc)
-  and added to the network as a stub for full-pipeline profiling.'
+
+description: Radiant Earth is a 501(c)(3) non-profit working to increase shared understanding of our world by making data easier to access and
+  use. Its initiatives include Source Cooperative, a data publishing utility for the web that lets trusted organizations and individuals publish
+  data of any kind at any scale, and the Cloud-Native Geospatial Forum (CNG), which convenes vendor-neutral events and education for geospatial
+  data practitioners. Through its GitHub organization (radiantearth) it stewards open geospatial specifications such as the SpatioTemporal Asset
+  Catalog (STAC) API spec, and it provides fiscal sponsorship and support services to aligned data initiatives.
+
+image: https://radiant.earth/homepage-og.webp
+
 url: https://raw.githubusercontent.com/api-evangelist/radiant-earth/refs/heads/main/apis.yml
+
 x-type: company
+
 x-source: harvest:tag-qc
-x-tier: stub
-x-tier-reason: harvest
+
+x-tier: profiled
+x-tier-reason: enrichment pass 2026-10-09 (modular-v1; was harvest)
+
 specificationVersion: '0.20'
+
 created: '2026-10-09'
+
 modified: '2026-10-09'
+
 tags:
 - Company
-apis: []
+- Non-Profit
+- Open Data
+- Geospatial
+- Earth Observation
+- Cloud-Native Geospatial
+- STAC
+- Data Publishing
+
 maintainers:
 - FN: Kin Lane
   email: kin@apievangelist.com
 - FN: APIs.json
   email: info@apis.io
+
 common:
+- type: AgenticAccess
+  url: agentic-access/radiant-earth-agentic-access.yml
+- type: Spectral
+  url: rules/radiant-earth-stac-api-spec-spectral-rules.yml
+- type: Spectral
+  url: rules/radiant-earth-rules.yml
+- type: JSONLD
+  url: json-ld/radiant-earth-context.jsonld
+- type: Vocabulary
+  url: vocabulary/radiant-earth-vocabulary.yml
+- type: DataModel
+  url: data-model/radiant-earth-data-model.yml
+- type: Components
+  url: components/radiant-earth-components.yml
+- type: CLI
+  url: cli/radiant-earth-cli.yml
+- type: ChangeLog
+  url: changelog/radiant-earth-changelog.yml
+- type: Conventions
+  url: conventions/radiant-earth-conventions.yml
+- type: Deprecation
+  url: lifecycle/radiant-earth-lifecycle.yml
+- type: Lifecycle
+  url: lifecycle/radiant-earth-lifecycle.yml
+- type: ErrorCatalog
+  url: errors/radiant-earth-problem-types.yml
+- type: Conformance
+  url: conformance/radiant-earth-conformance.yml
+- type: Overlay
+  url: overlays/radiant-earth-source-cooperative-overlay.yaml
+- type: Hosts
+  url: hosts/radiant-earth-hosts.yml
+- type: Vendors
+  url: vendors/radiant-earth-vendors.yml
+- type: SDKs
+  url: packages/radiant-earth-packages.yml
+- type: Packages
+  url: packages/radiant-earth-packages.yml
+- type: Authentication
+  url: authentication/radiant-earth-authentication.yml
+- type: DomainSecurity
+  url: security/radiant-earth-domain-security.yml
 - type: Website
   url: https://radiant.earth/
+- type: Blog
+  url: https://radiant.earth/blog/
+- type: RSSFeed
+  url: https://radiant.earth/index.xml
+- type: About
+  url: https://radiant.earth/about/
+- type: GitHubOrganization
+  url: https://github.com/radiantearth
+- type: TermsOfService
+  url: https://radiant.earth/terms/
+- type: PrivacyPolicy
+  url: https://radiant.earth/privacy/
+- type: Donate
+  url: https://radiant.earth/donate/
+- type: SpectralRules
+  url: https://github.com/radiantearth/stac-api-spec/blob/604ade6158de15b8ab068320ca41e25e2bf0e116/.circleci/.spectral.yml
+
+apis:
+- aid: radiant-earth:radiant-earth-accounts-api
+  name: Radiant Earth Accounts API
+  description: The Accounts API from Radiant Earth — 6 operation(s) for accounts.
+  humanURL: https://api.docs.source.coop/
+  baseURL: https://source.coop/api/v1
+  tags:
+  - Accounts
+  properties:
+  - type: OpenAPI
+    url: openapi/radiant-earth-accounts-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/data-proxy
+  - type: GitHubRepository
+    url: https://github.com/source-cooperative/source.coop
+  - type: JSONSchema
+    url: json-schema/radiant-earth-membership-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-repository-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-data-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-redacted-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-account-schema.json
+- aid: radiant-earth:radiant-earth-api-keys-api
+  name: Radiant Earth API Keys API
+  description: The API Keys API from Radiant Earth — 3 operation(s) for api keys.
+  humanURL: https://api.docs.source.coop/
+  baseURL: https://source.coop/api/v1
+  tags:
+  - API Keys
+  properties:
+  - type: OpenAPI
+    url: openapi/radiant-earth-api-keys-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/data-proxy
+  - type: GitHubRepository
+    url: https://github.com/source-cooperative/source.coop
+  - type: JSONSchema
+    url: json-schema/radiant-earth-membership-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-repository-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-data-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-redacted-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-account-schema.json
+- aid: radiant-earth:radiant-earth-authentication-api
+  name: Radiant Earth Authentication API
+  description: The Authentication API from Radiant Earth — 1 operation(s) for authentication.
+  humanURL: https://api.docs.source.coop/
+  baseURL: https://source.coop/api/v1
+  tags:
+  - Authentication
+  properties:
+  - type: OpenAPI
+    url: openapi/radiant-earth-authentication-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/data-proxy
+  - type: GitHubRepository
+    url: https://github.com/source-cooperative/source.coop
+  - type: JSONSchema
+    url: json-schema/radiant-earth-membership-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-repository-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-data-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-redacted-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-account-schema.json
+- aid: radiant-earth:radiant-earth-data-connections-api
+  name: Radiant Earth Data Connections API
+  description: The Data Connections API from Radiant Earth — 3 operation(s) for data connections.
+  humanURL: https://api.docs.source.coop/
+  baseURL: https://source.coop/api/v1
+  tags:
+  - Data Connections
+  properties:
+  - type: OpenAPI
+    url: openapi/radiant-earth-data-connections-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/data-proxy
+  - type: GitHubRepository
+    url: https://github.com/source-cooperative/source.coop
+  - type: JSONSchema
+    url: json-schema/radiant-earth-membership-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-repository-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-data-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-redacted-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-account-schema.json
+- aid: radiant-earth:radiant-earth-memberships-api
+  name: Radiant Earth Memberships API
+  description: The Memberships API from Radiant Earth — 6 operation(s) for memberships.
+  humanURL: https://api.docs.source.coop/
+  baseURL: https://source.coop/api/v1
+  tags:
+  - Memberships
+  properties:
+  - type: OpenAPI
+    url: openapi/radiant-earth-memberships-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/data-proxy
+  - type: GitHubRepository
+    url: https://github.com/source-cooperative/source.coop
+  - type: JSONSchema
+    url: json-schema/radiant-earth-membership-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-repository-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-data-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-redacted-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-account-schema.json
+- aid: radiant-earth:radiant-earth-repositories-api
+  name: Radiant Earth Repositories API
+  description: The Repositories API from Radiant Earth — 4 operation(s) for repositories.
+  humanURL: https://api.docs.source.coop/
+  baseURL: https://source.coop/api/v1
+  tags:
+  - Repositories
+  properties:
+  - type: OpenAPI
+    url: openapi/radiant-earth-repositories-api-openapi.yml
+  - type: Documentation
+    url: https://api.docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/
+  - type: Documentation
+    url: https://docs.source.coop/data-proxy
+  - type: GitHubRepository
+    url: https://github.com/source-cooperative/source.coop
+  - type: JSONSchema
+    url: json-schema/radiant-earth-membership-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-repository-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-data-connection-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-redacted-apikey-schema.json
+  - type: JSONSchema
+    url: json-schema/radiant-earth-account-schema.json
+x-enrichment:
+  date: '2026-10-09'
+  status: enriched
+  artifacts_added: 32
+  pass: modular-v1
+  engine: identity=anthropic,contract=anthropic,surfaces=anthropic,docs=anthropic,regulatory=anthropic

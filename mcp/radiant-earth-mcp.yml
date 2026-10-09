@@ -1,0 +1,192 @@
+name: Radiant Earth Source Cooperative MCP (candidate)
+type: MCPServer
+generated: '2026-10-09'
+method: derived
+source: openapi/radiant-earth-source-cooperative-openapi.yml
+status: candidate
+description: No official MCP server published by Radiant Earth / Source Cooperative was found. Tool list below is a candidate derived from the 31 operations in the Source Cooperative OpenAPI; nobody ships
+  it.
+deployment:
+  mode: none
+  auth: api-key
+  verified: derived
+auth:
+  type: api-key
+  scheme: ApiKeyAuth
+  note: Authorization header carrying access key ID and secret
+base_url: https://source.coop/api/v1
+third_party_servers:
+- name: source-coop-mcp
+  author: yharby (community, not Radiant Earth)
+  official: false
+  mode: local-stdio
+  install: uvx source-coop-mcp
+  listing: https://glama.ai/mcp/servers/ippalvuv8z
+  listing_status: 200
+  package: https://pypi.org/project/source-coop-mcp/
+  package_status: 200
+  documented_tools_sample:
+  - list_accounts
+  - list_products
+  - search
+  verified: searched
+probes:
+- url: https://source.coop/mcp
+  status: 200
+  note: Next.js HTML page (site catch-all), not an MCP endpoint
+tools:
+- name: create_a_new_api_key_for_an_account
+  description: Create a new API key for an account
+  method: POST
+  path: /accounts/{account_id}/api-keys
+  status: candidate
+- name: list_api_keys_for_an_account
+  description: List API keys for an account
+  method: GET
+  path: /accounts/{account_id}/api-keys
+  status: candidate
+- name: get_account_flags
+  description: Get account flags
+  method: GET
+  path: /accounts/{account_id}/flags
+  status: candidate
+- name: update_account_flags
+  description: Update account flags
+  method: PUT
+  path: /accounts/{account_id}/flags
+  status: candidate
+- name: get_account_details
+  description: Get account details
+  method: GET
+  path: /accounts/{account_id}
+  status: candidate
+- name: disable_an_account
+  description: Disable an account
+  method: DELETE
+  path: /accounts/{account_id}
+  status: candidate
+- name: invite_a_new_member_to_an_account
+  description: Invite a new member to an account
+  method: POST
+  path: /accounts/{account_id}/members
+  status: candidate
+- name: list_the_memberships_for_an_account
+  description: List the memberships for an account
+  method: GET
+  path: /accounts/{account_id}/members
+  status: candidate
+- name: get_account_profile
+  description: Get account profile
+  method: GET
+  path: /accounts/{account_id}/profile
+  status: candidate
+- name: update_account_profile
+  description: Update account profile
+  method: PUT
+  path: /accounts/{account_id}/profile
+  status: candidate
+- name: create_a_new_account
+  description: Create a new account
+  method: POST
+  path: /accounts
+  status: candidate
+- name: revoke_an_api_key
+  description: Revoke an API key
+  method: DELETE
+  path: /api-keys/{access_key_id}
+  status: candidate
+- name: get_a_data_connection
+  description: Get a data connection
+  method: GET
+  path: /data-connections/{data_connection_id}
+  status: candidate
+- name: update_a_data_connection
+  description: Update a data connection
+  method: PUT
+  path: /data-connections/{data_connection_id}
+  status: candidate
+- name: disable_a_data_connection
+  description: Disable a data connection
+  method: DELETE
+  path: /data-connections/{data_connection_id}
+  status: candidate
+- name: list_data_connections_available_to_the_user_for_repository_c
+  description: List data connections available to the user for repository creation
+  method: GET
+  path: /data-connections/available
+  status: candidate
+- name: list_data_connections
+  description: List data connections
+  method: GET
+  path: /data-connections
+  status: candidate
+- name: create_a_new_data_connection
+  description: Create a new data connection
+  method: POST
+  path: /data-connections
+  status: candidate
+- name: accept_a_membership_invitation
+  description: Accept a membership invitation
+  method: POST
+  path: /memberships/{membership_id}/accept
+  status: candidate
+- name: rejects_a_membership_invitation
+  description: Rejects a membership invitation
+  method: POST
+  path: /memberships/{membership_id}/reject
+  status: candidate
+- name: revokes_a_membership
+  description: Revokes a membership
+  method: POST
+  path: /memberships/{membership_id}/revoke
+  status: candidate
+- name: updates_a_membership_role
+  description: Updates a membership role
+  method: POST
+  path: /memberships/{membership_id}/update-role
+  status: candidate
+- name: create_a_new_api_key
+  description: Create a new API key
+  method: POST
+  path: /repositories/{account_id}/{repository_id}/api-keys
+  status: candidate
+- name: list_api_keys_for_a_repository
+  description: List API keys for a repository
+  method: GET
+  path: /repositories/{account_id}/{repository_id}/api-keys
+  status: candidate
+- name: update_an_existing_repository
+  description: Update an existing repository
+  method: PUT
+  path: /repositories/{account_id}/{repository_id}
+  status: candidate
+- name: disable_an_existing_repository
+  description: Disable an existing repository
+  method: DELETE
+  path: /repositories/{account_id}/{repository_id}
+  status: candidate
+- name: get_an_existing_repository
+  description: Get an existing repository
+  method: GET
+  path: /repositories/{account_id}/{repository_id}
+  status: candidate
+- name: invite_a_new_member_to_a_repository
+  description: Invite a new member to a repository
+  method: POST
+  path: /repositories/{account_id}/{repository_id}/members
+  status: candidate
+- name: list_the_memberships_for_a_repository
+  description: List the memberships for a repository
+  method: GET
+  path: /repositories/{account_id}/{repository_id}/members
+  status: candidate
+- name: create_a_new_repository
+  description: Create a new repository
+  method: POST
+  path: /repositories/{account_id}
+  status: candidate
+- name: get_the_identity_of_the_authenticated_caller
+  description: Get the identity of the authenticated caller
+  method: GET
+  path: /whoami
+  status: candidate

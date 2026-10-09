@@ -1,0 +1,47 @@
+generated: '2026-10-09'
+method: searched
+source: https://docs.source.coop/automated-access
+sources:
+- openapi/radiant-earth-source-cooperative-openapi.yml
+- https://docs.source.coop/automated-access
+- https://docs.source.coop/upload-with-the-cli
+- https://docs.source.coop/data-proxy
+name: Source Cooperative API Conventions
+auth:
+  style: API key in the Authorization header, format `<access-key-id> <secret-access-key>` (OpenAPI ApiKeyAuth)
+  data_proxy: The S3-compatible data proxy (https://data.source.coop) issues short-lived AWS-style credentials via an STS endpoint (https://data.source.coop/.sts); service-account API keys and GitHub Actions OIDC tokens are exchanged there with AssumeRoleWithWebIdentity, credentials "last an hour".
+  see: authentication/radiant-earth-authentication.yml
+idempotency:
+  coverage: none
+  note: No Idempotency-Key header or replay protection is documented in the spec or docs. (Release 1.5.1 notes "make account creation a conditional write", a server-side safeguard, not a client idempotency mechanism.)
+pagination:
+  style: null
+  note: The OpenAPI declares no pagination parameters (no cursor/page/limit/offset).
+versioning:
+  style: path (/api/v1)
+  see: lifecycle/radiant-earth-lifecycle.yml
+request_id:
+  note: Data proxy errors quote a request id (e.g. "(request id 8f3a1c2b9d4e5f60-SEA)") and the docs ask users to quote it to hello@source.coop.
+  source: https://docs.source.coop/automated-access
+errors:
+  envelope: null
+  note: The spec documents 400/401/403/404/500 responses by description only, with no error body schema. The data proxy returns S3/STS-style errors (e.g. InvalidIdentityToken, ExpiredToken (HTTP 403)).
+rate_limit_signaling:
+  note: Not documented.
+  see: rate-limits/radiant-earth-rate-limits.yml
+reversibility:
+  status: undocumented
+  surfaces:
+  - surface: DELETE /accounts/{account_id}
+    behavior: 'Spec summary "Disable an account" (a disable rather than hard delete).'
+    reversal_operation: null
+    window: null
+  - surface: DELETE /repositories/{account_id}/{repository_id}
+    behavior: '"Disables an existing repository for the specified account."'
+    reversal_operation: null
+    window: null
+  - surface: DELETE /api-keys/{access_key_id}
+    behavior: Revokes an API key; no restore operation documented.
+    reversal_operation: null
+    window: null
+  note: Deletes are described as disables, but the spec and docs name no restore/re-enable operation and state no window, so no reversal path is asserted. The spec has no operationIds. Storage buckets have object versioning with "Non-current versions automatically deleted after 90 days" (https://docs.source.coop/infrastructure), which is a storage-layer setting, not a documented API reversal.

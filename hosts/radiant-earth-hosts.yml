@@ -1,0 +1,72 @@
+generated: '2026-10-09'
+method: derived
+source: the pre-flight dossier, apis.yml pointers, spec servers, well-known, vendors -- nothing fetched here
+generator: derive-hosts.py
+summary:
+  hosts: 5
+  own: 2
+  other_domain: 2
+  platform: 1
+  roles:
+  - api
+  - other
+  - source
+  - website
+hosts:
+- host: api.docs.source.coop
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - docs
+  registrable_domain: source.coop
+  role: api
+  relation: other-domain
+- host: api.radiant.earth
+  found_by:
+  - contract-discovery
+  types: []
+  serves: []
+  registrable_domain: radiant.earth
+  role: api
+  relation: own
+- host: github.com
+  found_by:
+  - pointer
+  types:
+  - GitHubOrganization
+  - SpectralRules
+  serves: []
+  registrable_domain: github.com
+  role: source
+  relation: platform
+- host: radiant.earth
+  found_by:
+  - pointer
+  - probed
+  - contract-discovery
+  - well-known
+  - vendor-detect
+  types:
+  - Website
+  - Blog
+  - RSSFeed
+  - About
+  - TermsOfService
+  - PrivacyPolicy
+  - Donate
+  serves:
+  - hosting
+  vendor: vercel
+  registrable_domain: radiant.earth
+  role: website
+  relation: own
+- host: source.coop
+  found_by:
+  - apis[]
+  types: []
+  serves:
+  - api
+  registrable_domain: source.coop
+  role: other
+  relation: other-domain

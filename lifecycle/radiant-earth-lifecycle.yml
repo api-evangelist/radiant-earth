@@ -1,0 +1,18 @@
+generated: '2026-10-09'
+method: searched
+source: https://docs.source.coop/direct-uploads
+versioning:
+  scheme: path version (/api/v1) in the server URL https://source.coop/api/v1; application releases are semver on GitHub (current 1.7.0)
+  policy: null
+  note: No published API versioning policy was found.
+deprecation:
+  policy: null
+  deprecated_features:
+  - name: Direct Uploads with Your Own AWS Identity
+    url: https://docs.source.coop/direct-uploads
+    statement: This method is deprecated. New pipelines should use a service account instead, which works for every product, needs no AWS account
+  deprecated_operations: []
+  sunset_headers: null
+status_page: null
+sla: null
+note: No status page, SLA or deprecation policy was found in docs.source.coop; the spec marks no operation deprecated.

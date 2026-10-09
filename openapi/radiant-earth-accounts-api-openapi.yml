@@ -1,0 +1,632 @@
+openapi: 3.2.0
+info:
+  title: Radiant Earth Accounts API
+  version: 1.0.0
+  description: 'Operations tagged Accounts across 2 of this provider''s published API definitions: radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml. Each path carries the servers of the definition it was published in.'
+servers:
+- url: https://source.coop/api/v1
+  description: Source Cooperative
+security:
+- ApiKeyAuth: []
+tags:
+- name: Accounts
+paths:
+  /accounts/{account_id}/api-keys:
+    post:
+      tags:
+      - Accounts
+      summary: Create a new API key for an account
+      description: 'Creates a new API key for the specified account. API key expiration date must be in the future. For user accounts, you must be authenticated as the user account you are creating the API key for. For organization accounts, you must be authenticated as either an `owners` or `maintainers` member for the organization account you are creating the API key for.
+
+        Only users with the `admin` flag may create API keys for service accounts.'
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account to create the API key for
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/APIKeyRequest'
+      responses:
+        '200':
+          description: Successfully created API key
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/APIKey'
+        '400':
+          description: Bad request - Invalid request body or expiration date
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account not found
+        '500':
+          description: Internal server error
+      operationId: postAccountsByAccountIdApiKeys
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Accounts
+      summary: List API keys for an account
+      description: 'Retrieves all API keys associated with the specified account. For user accounts, you must be authenticated as the user account you are listing API keys for. For organization accounts, you must be authenticated as either an `owners` or `maintainers` member of the organization account you are listing API keys for.
+
+        Only users with the `admin` flag may list API keys for service accounts.'
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account to list API keys for
+      responses:
+        '200':
+          description: Successfully retrieved API keys
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/RedactedAPIKey'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account not found
+        '500':
+          description: Internal server error
+      operationId: getAccountsByAccountIdApiKeys
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /accounts/{account_id}/flags:
+    get:
+      tags:
+      - Accounts
+      summary: Get account flags
+      description: Retrieves the flags of a specific account. For a User account, users may only get the flags for their own account. For an Organization account, only users who are `owners` or `maintainers` of the organization may get the flags. Users with the `admin` flag may get the flags for any account.
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account whose flags to retrieve
+      responses:
+        '200':
+          description: Successfully retrieved account flags
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountFlags'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account with the specified ID does not exist
+        '500':
+          description: Internal server error
+      operationId: getAccountsByAccountIdFlags
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Accounts
+      summary: Update account flags
+      description: Updates the flags of a specific account. You must have the `admin` flag to update the flags for an account.
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account whose flags to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountFlags'
+      responses:
+        '200':
+          description: Successfully updated the account flags
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountFlags'
+        '400':
+          description: Bad Request - Invalid flags data
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account with the specified ID does not exist
+        '500':
+          description: Internal server error
+      operationId: putAccountsByAccountIdFlags
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /accounts/{account_id}:
+    get:
+      tags:
+      - Accounts
+      summary: Get account details
+      description: Retrieves the details of a specific account. For a User account, you must be authenticated as the user you are retrieving the account details for. For an Organization account, you must be authenticated as either an `owners` or `maintainers` member of the organization you are retrieving the account details for. Users with the `admin` flag may retrieve the account details for any account.
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account to retrieve
+      responses:
+        '200':
+          description: Successfully retrieved account details
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account with the specified ID does not exist
+        '500':
+          description: Internal server error
+      operationId: getAccountsByAccountId
+      x-operation-id-source: derived
+    delete:
+      tags:
+      - Accounts
+      summary: Disable an account
+      description: Disables a specific account. User accounts may not be disabled unless you are authenticated as a user with the `admin` flag. Organization accounts require that you are authenticated as an `owners` or `maintainers` member of the organization.
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account to disable
+      responses:
+        '200':
+          description: Successfully disabled the account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account with the specified ID does not exist
+        '500':
+          description: Internal server error
+      operationId: deleteAccountsByAccountId
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /accounts/{account_id}/members:
+    post:
+      tags:
+      - Accounts
+      summary: Invite a new member to an account
+      description: 'Invites a new member to the specified account. For user accounts, you must be authenticated as the user account you are inviting the member to. For organization accounts, you must be authenticated as either an `owners` or `maintainers` member for the organization account you are inviting the member to.
+
+        Only users with the `admin` flag may invite members to service accounts.'
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account to invite the member to
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/MembershipInvitation'
+      responses:
+        '200':
+          description: Successfully invited member
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Membership'
+        '400':
+          description: Bad request - Invalid request body or member already invited/exists
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account not found
+        '500':
+          description: Internal server error
+      operationId: postAccountsByAccountIdMembers
+      x-operation-id-source: derived
+    get:
+      tags:
+      - Accounts
+      summary: List the memberships for an account
+      description: 'Retrieves all memberships associated with the specified account.
+
+        For user accounts, you must be authenticated as the user account you are listing memberships for.
+
+        For organization accounts, you must be authenticated as either an `owners` or `maintainers` member of the organization account you are listing memberships for.
+
+
+        Only users with the `admin` flag may list memberships for service accounts.'
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account to list memberships for
+      responses:
+        '200':
+          description: Successfully retrieved memberships
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Membership'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account not found
+        '500':
+          description: Internal server error
+      operationId: getAccountsByAccountIdMembers
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /accounts/{account_id}/profile:
+    get:
+      tags:
+      - Accounts
+      summary: Get account profile
+      description: Retrieves the profile of a specific account. Any user, authenticated or not, can retrieve the profile of any account.
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account whose profile to retrieve
+      responses:
+        '200':
+          description: Successfully retrieved account profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProfile'
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account with the specified ID does not exist
+        '500':
+          description: Internal server error
+      operationId: getAccountsByAccountIdProfile
+      x-operation-id-source: derived
+    put:
+      tags:
+      - Accounts
+      summary: Update account profile
+      description: Updates the profile of a specific account. For a User account, you must be authenticated as the user you are updating the profile for. For an Organization account, you must be authenticated as an `owners` member of the organization you are updating the profile for. Users with the `admin` flag may update the profile for any account.
+      parameters:
+      - in: path
+        name: account_id
+        required: true
+        schema:
+          type: string
+        description: The ID of the account whose profile to update
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountProfile'
+      responses:
+        '200':
+          description: Successfully updated the account profile
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AccountProfile'
+        '400':
+          description: Bad Request - Invalid profile data
+        '401':
+          description: Unauthorized - No valid session found or insufficient permissions
+        '404':
+          description: Not Found - Account with the specified ID does not exist
+        '500':
+          description: Internal server error
+      operationId: putAccountsByAccountIdProfile
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+  /accounts:
+    post:
+      tags:
+      - Accounts
+      summary: Create a new account
+      description: Creates a new account. Authenticated users can only create a user account if they do not already have one. Only users with the `create_organizations` flag may create organization accounts. Users with the `admin` flag may create any account.
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AccountCreationRequest'
+      responses:
+        '200':
+          description: Successfully created account
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Account'
+        '400':
+          description: Bad request - Invalid request body or an account with the same ID already exists
+        '401':
+          description: Unauthorized - No valid session found or user already has an account
+        '500':
+          description: Internal server error
+      operationId: postAccounts
+      x-operation-id-source: derived
+    servers:
+    - url: https://source.coop/api/v1
+      description: Source Cooperative
+components:
+  schemas:
+    AccountCreationRequest:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+        profile:
+          $ref: '#/components/schemas/AccountProfile'
+      required:
+      - account_id
+      - account_type
+      - profile
+    AccountFlags:
+      type: array
+      items:
+        type: string
+        enum:
+        - admin
+        - create_repositories
+        - create_organizations
+    Account:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+        identity_id:
+          type: string
+          example: identity-id
+        disabled:
+          type: boolean
+        profile:
+          $ref: '#/components/schemas/AccountProfile'
+        flags:
+          $ref: '#/components/schemas/AccountFlags'
+      required:
+      - account_id
+      - account_type
+      - disabled
+      - profile
+      - flags
+    Membership:
+      type: object
+      properties:
+        membership_id:
+          type: string
+          format: uuid
+          example: 00000000-0000-0000-0000-000000000000
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        membership_account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: organization-id
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: repository-id
+        role:
+          $ref: '#/components/schemas/MembershipRole'
+        state:
+          $ref: '#/components/schemas/MembershipState'
+        state_changed:
+          type: string
+          format: date-time
+      required:
+      - membership_id
+      - account_id
+      - membership_account_id
+      - role
+      - state
+      - state_changed
+    MembershipState:
+      type: string
+      enum:
+      - invited
+      - revoked
+      - member
+    RedactedAPIKey:
+      type: object
+      properties:
+        access_key_id:
+          type: string
+          minLength: 2
+          maxLength: 24
+          example: SCFOOBAR
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: repository-id
+        disabled:
+          type: boolean
+        expires:
+          type: string
+          format: date-time
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          example: Dev Machine
+      required:
+      - access_key_id
+      - account_id
+      - disabled
+      - expires
+      - name
+    APIKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Dev Machine
+        expires:
+          type: string
+          format: date-time
+      required:
+      - name
+      - expires
+    AccountType:
+      type: string
+      enum:
+      - user
+      - organization
+      - service
+    MembershipInvitation:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        role:
+          $ref: '#/components/schemas/MembershipRole'
+      required:
+      - account_id
+      - role
+    AccountProfile:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          example: Isaac Asimov
+        bio:
+          type:
+          - string
+          - 'null'
+          maxLength: 1024
+          example: Software Engineer @radiantearth
+        location:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          example: Augsburg, Germany
+        url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: https://source.coop
+    APIKey:
+      type: object
+      properties:
+        access_key_id:
+          type: string
+          minLength: 2
+          maxLength: 24
+          example: SCFOOBAR
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: repository-id
+        disabled:
+          type: boolean
+        expires:
+          type: string
+          format: date-time
+        name:
+          type: string
+          minLength: 1
+          maxLength: 128
+          example: Dev Machine
+        secret_access_key:
+          type: string
+          minLength: 64
+          maxLength: 64
+      required:
+      - access_key_id
+      - account_id
+      - disabled
+      - expires
+      - name
+      - secret_access_key
+    MembershipRole:
+      type: string
+      enum:
+      - owners
+      - maintainers
+      - read_data
+      - write_data
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Authorization
+      description: Follows the format `<access-key-id> <secret-access-key>`
+x-refined-from:
+- radiant-earth-source-cooperative-openapi.json
+- radiant-earth-source-cooperative-openapi.yml

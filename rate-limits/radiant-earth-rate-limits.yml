@@ -1,0 +1,7 @@
+generated: '2026-10-09'
+method: none
+source: https://docs.source.coop/
+name: Source Cooperative Rate Limits
+limit_count: 0
+limits: []
+note: No rate limits, quota or rate-limit response headers are published in docs.source.coop (sitemap pages read 2026-10-09) or in the OpenAPI (no 429 responses declared).

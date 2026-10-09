@@ -1,0 +1,10 @@
+# harvested from https://github.com/radiantearth/stac-api-spec/blob/604ade6158de15b8ab068320ca41e25e2bf0e116/.circleci/.spectral.yml on 2026-10-09 — a Spectral ruleset published in the provider's own GitHub repository (radiantearth/stac-api-spec); found by GitHub code search, fetched verbatim
+x-method: harvested
+x-stamped: 2026-10-09
+x-source-url: https://github.com/radiantearth/stac-api-spec/blob/604ade6158de15b8ab068320ca41e25e2bf0e116/.circleci/.spectral.yml
+extends: "spectral:oas"
+rules:
+  oas3-api-servers: off
+  oas3-schema: warn
+  tag-description: true
+  oas3-parameter-description: true

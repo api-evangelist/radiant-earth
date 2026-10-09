@@ -1,0 +1,130 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/radiant-earth/main/json-schema/radiant-earth-repository-schema.json",
+  "title": "Repository",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/radiant-earth-source-cooperative-openapi.yml#/components/schemas/Repository",
+  "type": "object",
+  "properties": {
+    "account_id": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 40,
+      "pattern": "^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$"
+    },
+    "repository_id": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 40,
+      "pattern": "^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$"
+    },
+    "state": {
+      "$ref": "#/$defs/RepositoryState"
+    },
+    "data_mode": {
+      "$ref": "#/$defs/RepositoryDataMode"
+    },
+    "featured": {
+      "type": "integer",
+      "enum": [
+        1,
+        0
+      ]
+    },
+    "meta": {
+      "$ref": "#/$defs/RepositoryMeta"
+    },
+    "data": {
+      "$ref": "#/$defs/RepositoryData"
+    },
+    "published": {
+      "type": "string",
+      "format": "date-time"
+    },
+    "disabled": {
+      "type": "boolean"
+    }
+  },
+  "required": [
+    "account_id",
+    "repository_id",
+    "state",
+    "data_mode",
+    "featured",
+    "meta",
+    "data",
+    "published",
+    "disabled"
+  ],
+  "$defs": {
+    "RepositoryData": {
+      "type": "object",
+      "properties": {
+        "primary_mirror": {
+          "type": "string"
+        },
+        "mirrors": {
+          "type": "object",
+          "additionalProperties": {
+            "$ref": "#/$defs/RepositoryMirror"
+          }
+        }
+      },
+      "required": [
+        "primary_mirror",
+        "mirrors"
+      ]
+    },
+    "RepositoryDataMode": {
+      "type": "string",
+      "enum": [
+        "open",
+        "subscription",
+        "private"
+      ]
+    },
+    "RepositoryMeta": {
+      "type": "object",
+      "properties": {
+        "title": {
+          "type": "string"
+        },
+        "description": {
+          "type": "string"
+        },
+        "tags": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "title",
+        "description",
+        "tags"
+      ]
+    },
+    "RepositoryMirror": {
+      "type": "object",
+      "properties": {
+        "data_connection_id": {
+          "type": "string"
+        },
+        "prefix": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "data_connection_id",
+        "prefix"
+      ]
+    },
+    "RepositoryState": {
+      "type": "string",
+      "enum": [
+        "listed",
+        "unlisted"
+      ]
+    }
+  }
+}

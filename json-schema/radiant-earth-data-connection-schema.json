@@ -1,0 +1,216 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://raw.githubusercontent.com/api-evangelist/radiant-earth/main/json-schema/radiant-earth-data-connection-schema.json",
+  "title": "DataConnection",
+  "x-generated": "2026-10-09",
+  "x-method": "derived",
+  "x-generator": "derive-json-schema.py",
+  "x-source": "openapi/radiant-earth-source-cooperative-openapi.yml#/components/schemas/DataConnection",
+  "type": "object",
+  "properties": {
+    "data_connection_id": {
+      "type": "string",
+      "minLength": 3,
+      "maxLength": 40,
+      "pattern": "^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$"
+    },
+    "name": {
+      "type": "string"
+    },
+    "prefix_template": {
+      "type": "string"
+    },
+    "read_only": {
+      "type": "boolean"
+    },
+    "allowed_data_modes": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "open",
+          "subscription",
+          "private"
+        ]
+      }
+    },
+    "required_flag": {
+      "type": "string",
+      "enum": [
+        "admin",
+        "create_repositories",
+        "create_organizations"
+      ]
+    },
+    "details": {
+      "$ref": "#/$defs/DataConnectionDetails"
+    },
+    "authentication": {
+      "$ref": "#/$defs/DataConnectionAuthentication"
+    }
+  },
+  "required": [
+    "data_connection_id",
+    "name",
+    "read_only",
+    "allowed_data_modes",
+    "details"
+  ],
+  "$defs": {
+    "AzureDataConnection": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": [
+            "az"
+          ]
+        },
+        "account_name": {
+          "type": "string"
+        },
+        "container_name": {
+          "type": "string"
+        },
+        "base_prefix": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string",
+          "enum": [
+            "westeurope"
+          ]
+        }
+      },
+      "required": [
+        "provider",
+        "account_name",
+        "container_name",
+        "base_prefix",
+        "region"
+      ]
+    },
+    "AzureSasTokenAuthentication": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "az_sas_token"
+          ]
+        },
+        "sas_token": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "sas_token"
+      ]
+    },
+    "DataConnectionAuthentication": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/S3AccessKeyAuthentication"
+        },
+        {
+          "$ref": "#/$defs/AzureSasTokenAuthentication"
+        }
+      ]
+    },
+    "DataConnectionDetails": {
+      "oneOf": [
+        {
+          "$ref": "#/$defs/S3DataConnection"
+        },
+        {
+          "$ref": "#/$defs/AzureDataConnection"
+        }
+      ]
+    },
+    "S3AccessKeyAuthentication": {
+      "type": "object",
+      "properties": {
+        "type": {
+          "type": "string",
+          "enum": [
+            "s3_access_key"
+          ]
+        },
+        "access_key_id": {
+          "type": "string"
+        },
+        "secret_access_key": {
+          "type": "string"
+        }
+      },
+      "required": [
+        "type",
+        "access_key_id",
+        "secret_access_key"
+      ]
+    },
+    "S3DataConnection": {
+      "type": "object",
+      "properties": {
+        "provider": {
+          "type": "string",
+          "enum": [
+            "s3"
+          ]
+        },
+        "bucket": {
+          "type": "string"
+        },
+        "base_prefix": {
+          "type": "string"
+        },
+        "region": {
+          "type": "string",
+          "enum": [
+            "af-south-1",
+            "ap-east-1",
+            "ap-northeast-1",
+            "ap-northeast-2",
+            "ap-northeast-3",
+            "ap-south-1",
+            "ap-south-2",
+            "ap-southeast-1",
+            "ap-southeast-2",
+            "ap-southeast-3",
+            "ap-southeast-4",
+            "ap-southeast-5",
+            "ca-central-1",
+            "ca-west-1",
+            "cn-north-1",
+            "cn-northwest-1",
+            "eu-central-1",
+            "eu-central-2",
+            "eu-north-1",
+            "eu-south-1",
+            "eu-south-2",
+            "eu-west-1",
+            "eu-west-2",
+            "eu-west-3",
+            "il-central-1",
+            "me-central-1",
+            "me-south-1",
+            "sa-east-1",
+            "us-east-1",
+            "us-east-2",
+            "us-gov-east-1",
+            "us-gov-west-1",
+            "us-west-1",
+            "us-west-2"
+          ]
+        }
+      },
+      "required": [
+        "provider",
+        "bucket",
+        "base_prefix",
+        "region"
+      ]
+    }
+  }
+}
