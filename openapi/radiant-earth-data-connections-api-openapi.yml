@@ -1,8 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Radiant Earth Data Connections API
+  title: Source Cooperative Data Connections API
   version: 1.0.0
-  description: 'Operations tagged Data Connections across 2 of this provider''s published API definitions: radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://source.coop/api/v1
   description: Source Cooperative
@@ -98,9 +97,6 @@ paths:
           description: Internal server error
       operationId: deleteDataConnectionsByDataConnectionId
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /data-connections/available:
     get:
       tags:
@@ -124,9 +120,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       operationId: getDataConnectionsAvailable
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /data-connections:
     get:
       tags:
@@ -172,20 +165,47 @@ paths:
           description: Internal server error
       operationId: postDataConnections
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
 components:
   schemas:
-    DataConnectionDetails:
-      oneOf:
-      - $ref: '#/components/schemas/S3DataConnection'
-      - $ref: '#/components/schemas/AzureDataConnection'
-      discriminator:
-        propertyName: provider
-        mapping:
-          s3: '#/components/schemas/S3DataConnection'
-          az: '#/components/schemas/AzureDataConnection'
+    DataConnection:
+      type: object
+      properties:
+        data_connection_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: data-connection-id
+        name:
+          type: string
+        prefix_template:
+          type: string
+        read_only:
+          type: boolean
+        allowed_data_modes:
+          type: array
+          items:
+            type: string
+            enum:
+            - open
+            - subscription
+            - private
+        required_flag:
+          type: string
+          enum:
+          - admin
+          - create_repositories
+          - create_organizations
+        details:
+          $ref: '#/components/schemas/DataConnectionDetails'
+        authentication:
+          $ref: '#/components/schemas/DataConnectionAuthentication'
+      required:
+      - data_connection_id
+      - name
+      - read_only
+      - allowed_data_modes
+      - details
     S3DataConnection:
       type: object
       properties:
@@ -239,45 +259,6 @@ components:
       - bucket
       - base_prefix
       - region
-    DataConnection:
-      type: object
-      properties:
-        data_connection_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: data-connection-id
-        name:
-          type: string
-        prefix_template:
-          type: string
-        read_only:
-          type: boolean
-        allowed_data_modes:
-          type: array
-          items:
-            type: string
-            enum:
-            - open
-            - subscription
-            - private
-        required_flag:
-          type: string
-          enum:
-          - admin
-          - create_repositories
-          - create_organizations
-        details:
-          $ref: '#/components/schemas/DataConnectionDetails'
-        authentication:
-          $ref: '#/components/schemas/DataConnectionAuthentication'
-      required:
-      - data_connection_id
-      - name
-      - read_only
-      - allowed_data_modes
-      - details
     S3AccessKeyAuthentication:
       type: object
       properties:
@@ -293,18 +274,6 @@ components:
       - type
       - access_key_id
       - secret_access_key
-    AzureSasTokenAuthentication:
-      type: object
-      properties:
-        type:
-          type: string
-          enum:
-          - az_sas_token
-        sas_token:
-          type: string
-      required:
-      - type
-      - sas_token
     DataConnectionAuthentication:
       oneOf:
       - $ref: '#/components/schemas/S3AccessKeyAuthentication'
@@ -337,22 +306,30 @@ components:
       - container_name
       - base_prefix
       - region
-  responses:
-    Unauthorized:
-      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
-      x-ae-placeholder: true
-    Forbidden:
-      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
-      x-ae-placeholder: true
-    InternalServerError:
-      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
-      x-ae-placeholder: true
+    AzureSasTokenAuthentication:
+      type: object
+      properties:
+        type:
+          type: string
+          enum:
+          - az_sas_token
+        sas_token:
+          type: string
+      required:
+      - type
+      - sas_token
+    DataConnectionDetails:
+      oneOf:
+      - $ref: '#/components/schemas/S3DataConnection'
+      - $ref: '#/components/schemas/AzureDataConnection'
+      discriminator:
+        propertyName: provider
+        mapping:
+          s3: '#/components/schemas/S3DataConnection'
+          az: '#/components/schemas/AzureDataConnection'
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: Authorization
       description: Follows the format `<access-key-id> <secret-access-key>`
-x-refined-from:
-- radiant-earth-source-cooperative-openapi.json
-- radiant-earth-source-cooperative-openapi.yml

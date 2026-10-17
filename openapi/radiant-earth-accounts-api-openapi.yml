@@ -1,8 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Radiant Earth Accounts API
+  title: Source Cooperative Accounts API
   version: 1.0.0
-  description: 'Operations tagged Accounts across 2 of this provider''s published API definitions: radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://source.coop/api/v1
   description: Source Cooperative
@@ -80,9 +79,6 @@ paths:
           description: Internal server error
       operationId: getAccountsByAccountIdApiKeys
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /accounts/{account_id}/flags:
     get:
       tags:
@@ -146,9 +142,6 @@ paths:
           description: Internal server error
       operationId: putAccountsByAccountIdFlags
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /accounts/{account_id}:
     get:
       tags:
@@ -204,9 +197,6 @@ paths:
           description: Internal server error
       operationId: deleteAccountsByAccountId
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /accounts/{account_id}/members:
     post:
       tags:
@@ -281,9 +271,6 @@ paths:
           description: Internal server error
       operationId: getAccountsByAccountIdMembers
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /accounts/{account_id}/profile:
     get:
       tags:
@@ -347,9 +334,6 @@ paths:
           description: Internal server error
       operationId: putAccountsByAccountIdProfile
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /accounts:
     post:
       tags:
@@ -377,28 +361,8 @@ paths:
           description: Internal server error
       operationId: postAccounts
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
 components:
   schemas:
-    AccountCreationRequest:
-      type: object
-      properties:
-        account_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: account-id
-        account_type:
-          $ref: '#/components/schemas/AccountType'
-        profile:
-          $ref: '#/components/schemas/AccountProfile'
-      required:
-      - account_id
-      - account_type
-      - profile
     AccountFlags:
       type: array
       items:
@@ -407,77 +371,6 @@ components:
         - admin
         - create_repositories
         - create_organizations
-    Account:
-      type: object
-      properties:
-        account_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: account-id
-        account_type:
-          $ref: '#/components/schemas/AccountType'
-        identity_id:
-          type: string
-          example: identity-id
-        disabled:
-          type: boolean
-        profile:
-          $ref: '#/components/schemas/AccountProfile'
-        flags:
-          $ref: '#/components/schemas/AccountFlags'
-      required:
-      - account_id
-      - account_type
-      - disabled
-      - profile
-      - flags
-    Membership:
-      type: object
-      properties:
-        membership_id:
-          type: string
-          format: uuid
-          example: 00000000-0000-0000-0000-000000000000
-        account_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: account-id
-        membership_account_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: organization-id
-        repository_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: repository-id
-        role:
-          $ref: '#/components/schemas/MembershipRole'
-        state:
-          $ref: '#/components/schemas/MembershipState'
-        state_changed:
-          type: string
-          format: date-time
-      required:
-      - membership_id
-      - account_id
-      - membership_account_id
-      - role
-      - state
-      - state_changed
-    MembershipState:
-      type: string
-      enum:
-      - invited
-      - revoked
-      - member
     RedactedAPIKey:
       type: object
       properties:
@@ -514,24 +407,12 @@ components:
       - disabled
       - expires
       - name
-    APIKeyRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Dev Machine
-        expires:
-          type: string
-          format: date-time
-      required:
-      - name
-      - expires
-    AccountType:
+    MembershipState:
       type: string
       enum:
-      - user
-      - organization
-      - service
+      - invited
+      - revoked
+      - member
     MembershipInvitation:
       type: object
       properties:
@@ -546,33 +427,13 @@ components:
       required:
       - account_id
       - role
-    AccountProfile:
-      type: object
-      properties:
-        name:
-          type:
-          - string
-          - 'null'
-          maxLength: 128
-          example: Isaac Asimov
-        bio:
-          type:
-          - string
-          - 'null'
-          maxLength: 1024
-          example: Software Engineer @radiantearth
-        location:
-          type:
-          - string
-          - 'null'
-          maxLength: 128
-          example: Augsburg, Germany
-        url:
-          type:
-          - string
-          - 'null'
-          format: uri
-          example: https://source.coop
+    MembershipRole:
+      type: string
+      enum:
+      - owners
+      - maintainers
+      - read_data
+      - write_data
     APIKey:
       type: object
       properties:
@@ -614,19 +475,136 @@ components:
       - expires
       - name
       - secret_access_key
-    MembershipRole:
+    APIKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Dev Machine
+        expires:
+          type: string
+          format: date-time
+      required:
+      - name
+      - expires
+    Membership:
+      type: object
+      properties:
+        membership_id:
+          type: string
+          format: uuid
+          example: 00000000-0000-0000-0000-000000000000
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        membership_account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: organization-id
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: repository-id
+        role:
+          $ref: '#/components/schemas/MembershipRole'
+        state:
+          $ref: '#/components/schemas/MembershipState'
+        state_changed:
+          type: string
+          format: date-time
+      required:
+      - membership_id
+      - account_id
+      - membership_account_id
+      - role
+      - state
+      - state_changed
+    Account:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+        identity_id:
+          type: string
+          example: identity-id
+        disabled:
+          type: boolean
+        profile:
+          $ref: '#/components/schemas/AccountProfile'
+        flags:
+          $ref: '#/components/schemas/AccountFlags'
+      required:
+      - account_id
+      - account_type
+      - disabled
+      - profile
+      - flags
+    AccountType:
       type: string
       enum:
-      - owners
-      - maintainers
-      - read_data
-      - write_data
+      - user
+      - organization
+      - service
+    AccountCreationRequest:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        account_type:
+          $ref: '#/components/schemas/AccountType'
+        profile:
+          $ref: '#/components/schemas/AccountProfile'
+      required:
+      - account_id
+      - account_type
+      - profile
+    AccountProfile:
+      type: object
+      properties:
+        name:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          example: Isaac Asimov
+        bio:
+          type:
+          - string
+          - 'null'
+          maxLength: 1024
+          example: Software Engineer @radiantearth
+        location:
+          type:
+          - string
+          - 'null'
+          maxLength: 128
+          example: Augsburg, Germany
+        url:
+          type:
+          - string
+          - 'null'
+          format: uri
+          example: https://source.coop
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: Authorization
       description: Follows the format `<access-key-id> <secret-access-key>`
-x-refined-from:
-- radiant-earth-source-cooperative-openapi.json
-- radiant-earth-source-cooperative-openapi.yml

@@ -1,8 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Radiant Earth Repositories API
+  title: Source Cooperative Repositories API
   version: 1.0.0
-  description: 'Operations tagged Repositories across 2 of this provider''s published API definitions: radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://source.coop/api/v1
   description: Source Cooperative
@@ -88,9 +87,6 @@ paths:
           description: Internal server error
       operationId: getRepositoriesByAccountIdByRepositoryIdApiKeys
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /repositories/{account_id}/{repository_id}:
     put:
       tags:
@@ -226,9 +222,6 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       operationId: getRepositoriesByAccountIdByRepositoryId
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /repositories/{account_id}/{repository_id}/members:
     post:
       tags:
@@ -315,9 +308,6 @@ paths:
           description: Internal server error
       operationId: getRepositoriesByAccountIdByRepositoryIdMembers
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /repositories/{account_id}:
     post:
       tags:
@@ -363,125 +353,18 @@ paths:
           $ref: '#/components/responses/InternalServerError'
       operationId: postRepositoriesByAccountId
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
 components:
   schemas:
-    RepositoryState:
-      type: string
-      enum:
-      - listed
-      - unlisted
-    RepositoryCreationRequest:
+    RepositoryMirror:
       type: object
       properties:
-        repository_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-        data_mode:
-          $ref: '#/components/schemas/RepositoryDataMode'
-        meta:
-          $ref: '#/components/schemas/RepositoryMeta'
         data_connection_id:
           type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: data-connection-id
+        prefix:
+          type: string
       required:
-      - repository_id
-      - data_mode
-      - meta
       - data_connection_id
-    Membership:
-      type: object
-      properties:
-        membership_id:
-          type: string
-          format: uuid
-          example: 00000000-0000-0000-0000-000000000000
-        account_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: account-id
-        membership_account_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: organization-id
-        repository_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: repository-id
-        role:
-          $ref: '#/components/schemas/MembershipRole'
-        state:
-          $ref: '#/components/schemas/MembershipState'
-        state_changed:
-          type: string
-          format: date-time
-      required:
-      - membership_id
-      - account_id
-      - membership_account_id
-      - role
-      - state
-      - state_changed
-    MembershipState:
-      type: string
-      enum:
-      - invited
-      - revoked
-      - member
-    Repository:
-      type: object
-      properties:
-        account_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-        repository_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-        state:
-          $ref: '#/components/schemas/RepositoryState'
-        data_mode:
-          $ref: '#/components/schemas/RepositoryDataMode'
-        featured:
-          type: integer
-          enum:
-          - 1
-          - 0
-        meta:
-          $ref: '#/components/schemas/RepositoryMeta'
-        data:
-          $ref: '#/components/schemas/RepositoryData'
-        published:
-          type: string
-          format: date-time
-        disabled:
-          type: boolean
-      required:
-      - account_id
-      - repository_id
-      - state
-      - data_mode
-      - featured
-      - meta
-      - data
-      - published
-      - disabled
+      - prefix
     RedactedAPIKey:
       type: object
       properties:
@@ -518,28 +401,12 @@ components:
       - disabled
       - expires
       - name
-    APIKeyRequest:
-      type: object
-      properties:
-        name:
-          type: string
-          example: Dev Machine
-        expires:
-          type: string
-          format: date-time
-      required:
-      - name
-      - expires
-    RepositoryMirror:
-      type: object
-      properties:
-        data_connection_id:
-          type: string
-        prefix:
-          type: string
-      required:
-      - data_connection_id
-      - prefix
+    MembershipState:
+      type: string
+      enum:
+      - invited
+      - revoked
+      - member
     MembershipInvitation:
       type: object
       properties:
@@ -554,47 +421,13 @@ components:
       required:
       - account_id
       - role
-    RepositoryUpdateRequest:
-      type: object
-      properties:
-        meta:
-          $ref: '#/components/schemas/RepositoryMeta'
-        state:
-          $ref: '#/components/schemas/RepositoryState'
-      required:
-      - meta
-      - state
-    RepositoryDataMode:
+    MembershipRole:
       type: string
       enum:
-      - open
-      - subscription
-      - private
-    RepositoryData:
-      type: object
-      properties:
-        primary_mirror:
-          type: string
-        mirrors:
-          type: object
-          additionalProperties:
-            $ref: '#/components/schemas/RepositoryMirror'
-      required:
-      - primary_mirror
-      - mirrors
-    RepositoryMeta:
-      type: object
-      properties:
-        title:
-          type: string
-        description:
-          type: string
-        tags:
-          type: string
-      required:
-      - title
-      - description
-      - tags
+      - owners
+      - maintainers
+      - read_data
+      - write_data
     APIKey:
       type: object
       properties:
@@ -636,35 +469,170 @@ components:
       - expires
       - name
       - secret_access_key
-    MembershipRole:
+    RepositoryState:
       type: string
       enum:
-      - owners
-      - maintainers
-      - read_data
-      - write_data
-  responses:
-    Forbidden:
-      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
-      x-ae-placeholder: true
-    Unauthorized:
-      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
-      x-ae-placeholder: true
-    InternalServerError:
-      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
-      x-ae-placeholder: true
-    BadRequest:
-      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
-      x-ae-placeholder: true
-    NotFound:
-      description: Referenced by this document but never defined in it. API Evangelist added this empty placeholder so the document resolves; the shape is unknown and is NOT a claim about the API.
-      x-ae-placeholder: true
+      - listed
+      - unlisted
+    APIKeyRequest:
+      type: object
+      properties:
+        name:
+          type: string
+          example: Dev Machine
+        expires:
+          type: string
+          format: date-time
+      required:
+      - name
+      - expires
+    Membership:
+      type: object
+      properties:
+        membership_id:
+          type: string
+          format: uuid
+          example: 00000000-0000-0000-0000-000000000000
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        membership_account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: organization-id
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: repository-id
+        role:
+          $ref: '#/components/schemas/MembershipRole'
+        state:
+          $ref: '#/components/schemas/MembershipState'
+        state_changed:
+          type: string
+          format: date-time
+      required:
+      - membership_id
+      - account_id
+      - membership_account_id
+      - role
+      - state
+      - state_changed
+    RepositoryCreationRequest:
+      type: object
+      properties:
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+        data_mode:
+          $ref: '#/components/schemas/RepositoryDataMode'
+        meta:
+          $ref: '#/components/schemas/RepositoryMeta'
+        data_connection_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: data-connection-id
+      required:
+      - repository_id
+      - data_mode
+      - meta
+      - data_connection_id
+    RepositoryData:
+      type: object
+      properties:
+        primary_mirror:
+          type: string
+        mirrors:
+          type: object
+          additionalProperties:
+            $ref: '#/components/schemas/RepositoryMirror'
+      required:
+      - primary_mirror
+      - mirrors
+    RepositoryMeta:
+      type: object
+      properties:
+        title:
+          type: string
+        description:
+          type: string
+        tags:
+          type: string
+      required:
+      - title
+      - description
+      - tags
+    Repository:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+        repository_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+        state:
+          $ref: '#/components/schemas/RepositoryState'
+        data_mode:
+          $ref: '#/components/schemas/RepositoryDataMode'
+        featured:
+          type: integer
+          enum:
+          - 1
+          - 0
+        meta:
+          $ref: '#/components/schemas/RepositoryMeta'
+        data:
+          $ref: '#/components/schemas/RepositoryData'
+        published:
+          type: string
+          format: date-time
+        disabled:
+          type: boolean
+      required:
+      - account_id
+      - repository_id
+      - state
+      - data_mode
+      - featured
+      - meta
+      - data
+      - published
+      - disabled
+    RepositoryUpdateRequest:
+      type: object
+      properties:
+        meta:
+          $ref: '#/components/schemas/RepositoryMeta'
+        state:
+          $ref: '#/components/schemas/RepositoryState'
+      required:
+      - meta
+      - state
+    RepositoryDataMode:
+      type: string
+      enum:
+      - open
+      - subscription
+      - private
   securitySchemes:
     ApiKeyAuth:
       type: apiKey
       in: header
       name: Authorization
       description: Follows the format `<access-key-id> <secret-access-key>`
-x-refined-from:
-- radiant-earth-source-cooperative-openapi.json
-- radiant-earth-source-cooperative-openapi.yml

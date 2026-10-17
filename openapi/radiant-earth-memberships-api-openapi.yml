@@ -1,8 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Radiant Earth Memberships API
+  title: Source Cooperative Memberships API
   version: 1.0.0
-  description: 'Operations tagged Memberships across 2 of this provider''s published API definitions: radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://source.coop/api/v1
   description: Source Cooperative
@@ -85,9 +84,6 @@ paths:
           description: Internal server error
       operationId: getAccountsByAccountIdMembers
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /memberships/{membership_id}/accept:
     post:
       tags:
@@ -118,9 +114,6 @@ paths:
           description: Internal server error
       operationId: postMembershipsByMembershipIdAccept
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /memberships/{membership_id}/reject:
     post:
       tags:
@@ -151,9 +144,6 @@ paths:
           description: Internal server error
       operationId: postMembershipsByMembershipIdReject
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /memberships/{membership_id}/revoke:
     post:
       tags:
@@ -184,9 +174,6 @@ paths:
           description: Internal server error
       operationId: postMembershipsByMembershipIdRevoke
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /memberships/{membership_id}/update-role:
     post:
       tags:
@@ -221,9 +208,6 @@ paths:
           description: Internal server error
       operationId: postMembershipsByMembershipIdUpdateRole
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /repositories/{account_id}/{repository_id}/members:
     post:
       tags:
@@ -310,11 +294,28 @@ paths:
           description: Internal server error
       operationId: getRepositoriesByAccountIdByRepositoryIdMembers
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
 components:
   schemas:
+    MembershipInvitation:
+      type: object
+      properties:
+        account_id:
+          type: string
+          minLength: 3
+          maxLength: 40
+          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
+          example: account-id
+        role:
+          $ref: '#/components/schemas/MembershipRole'
+      required:
+      - account_id
+      - role
+    MembershipState:
+      type: string
+      enum:
+      - invited
+      - revoked
+      - member
     Membership:
       type: object
       properties:
@@ -354,26 +355,6 @@ components:
       - role
       - state
       - state_changed
-    MembershipInvitation:
-      type: object
-      properties:
-        account_id:
-          type: string
-          minLength: 3
-          maxLength: 40
-          pattern: ^[a-z0-9](?:(?!--)[a-z0-9-])*[a-z0-9]$
-          example: account-id
-        role:
-          $ref: '#/components/schemas/MembershipRole'
-      required:
-      - account_id
-      - role
-    MembershipState:
-      type: string
-      enum:
-      - invited
-      - revoked
-      - member
     MembershipRole:
       type: string
       enum:
@@ -387,6 +368,3 @@ components:
       in: header
       name: Authorization
       description: Follows the format `<access-key-id> <secret-access-key>`
-x-refined-from:
-- radiant-earth-source-cooperative-openapi.json
-- radiant-earth-source-cooperative-openapi.yml

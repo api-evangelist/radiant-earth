@@ -1,8 +1,7 @@
 openapi: 3.2.0
 info:
-  title: Radiant Earth API Keys API
+  title: Source Cooperative API Keys API
   version: 1.0.0
-  description: 'Operations tagged API Keys across 2 of this provider''s published API definitions: radiant-earth-source-cooperative-openapi.json, radiant-earth-source-cooperative-openapi.yml. Each path carries the servers of the definition it was published in.'
 servers:
 - url: https://source.coop/api/v1
   description: Source Cooperative
@@ -80,9 +79,6 @@ paths:
           description: Internal server error
       operationId: getAccountsByAccountIdApiKeys
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /api-keys/{access_key_id}:
     delete:
       tags:
@@ -109,9 +105,6 @@ paths:
           description: Internal server error
       operationId: deleteApiKeysByAccessKeyId
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
   /repositories/{account_id}/{repository_id}/api-keys:
     post:
       tags:
@@ -189,9 +182,6 @@ paths:
           description: Internal server error
       operationId: getRepositoriesByAccountIdByRepositoryIdApiKeys
       x-operation-id-source: derived
-    servers:
-    - url: https://source.coop/api/v1
-      description: Source Cooperative
 components:
   schemas:
     APIKey:
@@ -289,6 +279,3 @@ components:
       in: header
       name: Authorization
       description: Follows the format `<access-key-id> <secret-access-key>`
-x-refined-from:
-- radiant-earth-source-cooperative-openapi.json
-- radiant-earth-source-cooperative-openapi.yml
